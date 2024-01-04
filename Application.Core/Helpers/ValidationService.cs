@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Application.Core.DTOs;
+using Application.Data.Dtos.Core;
 using Application.Core.Helpers.Interfaces;
 using Application.Core.Repositories.Interfaces;
 

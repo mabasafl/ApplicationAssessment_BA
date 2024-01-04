@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Application.API.Models
+namespace Application.Data.Dtos.Core
 {
-    public partial class BusinessAreaRelationship
+    public class BusinessAreaRelationshipDto
     {
-        public int Id { get; set; }
-        public string AlternateId { get; set; } = null!;
         public int CustomerId { get; set; }
         public int? BusinessAreaId { get; set; }
         public int? FilteredBusinessAreaId { get; set; }
@@ -15,9 +16,5 @@ namespace Application.API.Models
         public string CreatedBy { get; set; } = null!;
         public DateTime? DateModified { get; set; }
         public string? ModifiedBy { get; set; }
-
-        public virtual BusinessArea? BusinessArea { get; set; }
-        public virtual Customer Customer { get; set; } = null!;
-        public virtual BusinessArea? FilteredBusinessArea { get; set; }
     }
 }

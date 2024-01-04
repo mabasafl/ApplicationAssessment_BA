@@ -1,7 +1,7 @@
 ﻿
 using Application.Authentication.Interface;
 using Application.Data.Dtos.Auth;
-using Application.Data.Models;
+using Application.Data.Models.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

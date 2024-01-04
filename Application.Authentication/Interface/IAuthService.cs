@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Data.Dtos.Auth;
-using Application.Data.Models;
+using Application.Data.Models.Auth;
 
 namespace Application.Authentication.Interface
 {

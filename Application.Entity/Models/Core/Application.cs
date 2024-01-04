@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Application.Core.Models
+namespace Application.Data.Models.Core
 {
-    public partial class BusinessAreaType
+    public partial class 
+        Applications
     {
-        //public BusinessAreaType()
+        //public Applications()
         //{
-        //    BusinessAreas = new HashSet<BusinessArea>();
+        //    ApplicationCustomers = new HashSet<ApplicationCustomer>();
         //}
 
         public int Id { get; set; }
-        public string AlternateId { get; set; } = null!;
+        public string AlternateId { get; set; } = new Guid().ToString();
         public string Name { get; set; } = null!;
         public DateTime DateCreated { get; set; }
         public string CreatedBy { get; set; } = null!;
         public DateTime? DateModified { get; set; }
         public string? ModifiedBy { get; set; }
 
-        //public virtual ICollection<BusinessArea> BusinessAreas { get; set; }
+        //public virtual ICollection<ApplicationCustomer> ApplicationCustomers { get; set; }
     }
 }
