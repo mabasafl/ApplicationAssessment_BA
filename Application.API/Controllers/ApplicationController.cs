@@ -1,7 +1,7 @@
-﻿using Application.Core.DTOs;
+﻿using Application.Data.Dtos.Core;
 using Application.Core.Helpers.Interfaces;
 using Application.Core.Interfaces;
-using Application.Core.Models;
+using Application.Data.Models.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

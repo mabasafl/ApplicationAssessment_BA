@@ -1,10 +1,10 @@
-﻿using Application.Core.Models;
+﻿using Application.Data.Models.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Application.Core.DTOs;
+using Application.Data.Dtos.Core;
 
 namespace Application.Core.Interfaces
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Application.Core.Models
+namespace Application.Data.Models.Core
 {
     public partial class BusinessAreaRelationship
     {

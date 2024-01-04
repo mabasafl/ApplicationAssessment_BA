@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Application.Core.Models;
-using Application.Data.Models;
+using Application.Data.Models.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Application.Data.Models.Auth;
 
-namespace Application.Core.Data
+namespace Application.Data.Data
 {
     public class DataContext : DbContext
     {

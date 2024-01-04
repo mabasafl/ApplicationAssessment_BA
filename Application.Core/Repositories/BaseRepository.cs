@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Application.Core.Data;
+using Application.Data.Data;
 using Application.Core.Repositories.Interfaces;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;

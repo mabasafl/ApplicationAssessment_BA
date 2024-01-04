@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Application.Authentication.Interface;
-using Application.Core.Data;
+using Application.Data.Data;
 using Application.Data.Dtos.Auth;
-using Application.Data.Models;
+using Application.Data.Models.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
