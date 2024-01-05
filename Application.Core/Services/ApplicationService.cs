@@ -28,33 +28,27 @@ namespace Application.Core.Services
         }
         public async Task<List<ApplicationsDto>> GetAllApplicationsAsync()
         {
-            //var result = await _repository.GetAllAsync();
-            //return result;
             List<ApplicationsDto> applicationDto = new List<ApplicationsDto>();
             var result = await _repository.GetAllAsync();
             if (result != null)
             {
-                //foreach (var appl in result)
-                //{
-                //    applicationDto.Add(
-                //        new ApplicationsDto()
-                //        {
-                //            Name = appl.Name,
-                //            DateCreated = appl.DateCreated,
-                //            CreatedBy = appl.CreatedBy,
-                //            DateModified = appl.DateModified,
-                //            ModifiedBy = appl.ModifiedBy
-
-                //        });
-                //}
-
                 applicationDto = _mapper.Map<List<Applications>, List<ApplicationsDto>>(result);
             }
             return applicationDto;
 
 
         }
+        public async Task<ApplicationsDto> GetApplicationsAsync(int id)
+        {
+            ApplicationsDto applicationDto = new ApplicationsDto();
+            var result = await _repository.GetAsync(id);
 
+            if (result != null)
+            {
+                applicationDto = _mapper.Map<Applications, ApplicationsDto>(result);
+            }
+            return applicationDto;
+        }
         public async Task<ResponseDto> AddApplicationAsync(ApplicationsDto applications)
         {
             ResponseDto response = null;
@@ -78,7 +72,6 @@ namespace Application.Core.Services
 
             return response;
         }
-
         public async Task<ResponseDto> UpdateApplicationAsync(Applications application)
         {
             ResponseDto response = null;
@@ -96,7 +89,6 @@ namespace Application.Core.Services
 
             return response;
         }
-
         public async Task<ResponseDto> DeleteApplicationAsync(Applications application)
         {
             ResponseDto response = null;
@@ -114,16 +106,6 @@ namespace Application.Core.Services
             return response;
         }
 
-        public async Task<ApplicationsDto> GetApplicationsAsync(int id)
-        {
-            ApplicationsDto applicationDto = new ApplicationsDto();
-            var result = await _repository.GetAsync(id);
 
-            if (result != null)
-            {
-                applicationDto = _mapper.Map<Applications, ApplicationsDto>(result);
-            }
-            return applicationDto;
-        }
     }
 }

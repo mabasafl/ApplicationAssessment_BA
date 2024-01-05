@@ -10,10 +10,10 @@ namespace Application.Core.Interfaces
 {
     public interface ICustomerService
     {
-        Task<ResponseDto> AddCustomerAsync(ApplicationsDto application);
-        Task<ResponseDto> UpdateCustomerAsync(Applications application);
-        Task<List<ApplicationsDto>> GetAllCustomersAsync();
-        Task<ApplicationsDto> GetCustomerAsync(int id);
-        Task<ResponseDto> DeleteCustomerAsync(Applications application);
+        Task<ResponseDto> AddCustomerAsync(CustomersDto customer);
+        Task<ResponseDto> UpdateCustomerAsync(Customer customer);
+        Task<List<CustomersDto>> GetAllCustomersAsync();
+        Task<CustomersDto> GetCustomerAsync(int id);
+        Task<ResponseDto> DeleteCustomerAsync(Customer customer);
     }
 }

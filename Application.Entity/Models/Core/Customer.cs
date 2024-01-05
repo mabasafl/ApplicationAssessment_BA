@@ -14,7 +14,7 @@ namespace Application.Data.Models.Core
         //}
 
         public int Id { get; set; }
-        public string AlternateId { get; set; } = null!;
+        public string AlternateId { get; set; } 
         public string Name { get; set; } = null!;
         public DateTime DateCreated { get; set; }
         public string CreatedBy { get; set; } = null!;
@@ -25,5 +25,6 @@ namespace Application.Data.Models.Core
         //public virtual ICollection<BusinessAreaRelationship> BusinessAreaRelationships { get; set; }
         //public virtual ICollection<BusinessArea> BusinessAreas { get; set; }
         //public virtual ICollection<Person> People { get; set; }
+
     }
 }

@@ -28,7 +28,8 @@ builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped(typeof(IValidationService<>), typeof(ValidationService<>));
 
 builder.Services.AddScoped<IApplicationService, ApplicationService>();
-//builder.Services.Configure<JwtConfigs>(builder.Configuration.GetSection("JwtConfig"));
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IPersonService, PersonService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 #region ...Registering Auto Mapper

@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Application.Data.Models.Core;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Application.Data.Models.Core
+namespace Application.Data.Dtos.Core
 {
-    public partial class Person
+    public class PersonDto
     {
-        public int Id { get; set; }
-        public string AlternateId { get; set; } = null!;
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
         public string EmailAddress { get; set; } = null!;
@@ -17,6 +19,5 @@ namespace Application.Data.Models.Core
         public DateTime? DateModified { get; set; }
         public string? ModifiedBy { get; set; }
 
-        //public virtual Customer Customer { get; set; } = null!;
     }
 }

@@ -43,7 +43,6 @@ namespace Application.Core.Repositories
 
         public async Task<T> GetAsync(int id)
         {
-            //var entity = await _dbSet.Where(x => x.Equals(id)).FirstOrDefaultAsync();
             var entity = await _dbSet.FindAsync(id);
             return entity;
         }
