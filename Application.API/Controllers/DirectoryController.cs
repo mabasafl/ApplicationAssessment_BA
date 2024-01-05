@@ -16,7 +16,6 @@ namespace Application.API.Controllers
         }
 
         [HttpGet("getAll")]
-        //public List<T> GetAll()
         public async Task<IActionResult> GetAll()
         {
             var response = _baseRepository.GetAllAsync();
@@ -32,7 +31,6 @@ namespace Application.API.Controllers
         }
 
         [HttpPost("post")]
-        //public bool Post(T entity)
         public async Task<IActionResult> Post(T entity)
         {
             var response = _baseRepository.AddAsync(entity);
@@ -40,7 +38,6 @@ namespace Application.API.Controllers
         }
 
         [HttpPut("update")]
-        //public bool Put(T entity)
         public async Task<IActionResult> Put(T entity)
         {
             var response = _baseRepository.UpdateAsync(entity);
@@ -48,7 +45,6 @@ namespace Application.API.Controllers
         }
 
         [HttpDelete("delete")]
-        //public bool Delete(T entity)
         public async Task<IActionResult> Delete(T entity)
         {
             var response = _baseRepository.DeleteAsync(entity);

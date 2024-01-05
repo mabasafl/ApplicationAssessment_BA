@@ -41,25 +41,27 @@ namespace Application.Core.Helpers
             {
                 foreach (var item in existingRecord)
                 {
-                    if (item.GetType().GetProperty("Name").GetValue(item).ToString().ToLower() == name.ToLower())
+                    var propertyName = item.GetType().GetProperty("Name");
+                    ;
+                    if (propertyName != null)
                     {
-                        errorMessages.Add(new[] {$"{name} already exists. {typeof(T).Name} name should be unique"});
+                        string propertyValue = propertyName.GetValue(item).ToString().ToLower();
+                        if (!string.IsNullOrWhiteSpace(propertyValue) || propertyValue== name.ToLower())
+                        {
+                            errorMessages.Add(new[] {$"{name} already exists. {typeof(T).Name} name should be unique"});
+                        }
+                    }
+                    
+                    if (typeof(T).Name.ToString() == "Person")
+                    {
+                        if (item.GetType().GetProperty("EmailAddress").GetValue(item).ToString() == name.ToLower())
+                        {
+                            errorMessages.Add(new [] {$"{name} already exists. {typeof(T).Name}'s email address should be unique"});
+                        }
                     }
                 }
             }
-
-            //PropertyInfo propety = existingRecord.GetType().GetProperty("Name");
-            //if (propety != null)
-            //{
-            //    var existingName = propety.GetValue(existingRecord);
-
-            //    if (existingName != null)
-            //    {
-            //        existingName.GetType().GetProperties();
-            //    }
-            //}
             
-
             return new ResponseDto
             {
                 Success = false,

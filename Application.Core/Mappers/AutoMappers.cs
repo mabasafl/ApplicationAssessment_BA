@@ -14,6 +14,8 @@ namespace Application.Core.Mappers
         public AutoMappers()
         {
             CreateMap<Applications, ApplicationsDto>().ReverseMap();
+            CreateMap<Customer, CustomersDto>().ReverseMap();
+            CreateMap<Person, PersonDto>().ReverseMap();
         }
     }
 }
