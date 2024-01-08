@@ -1,0 +1,20 @@
+<p>
+  <mat-toolbar color="primary" style="justify-content: space-between;">
+    <span>
+      <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Business Area Application</span>
+    </span>
+    <span>
+      <button *ngIf="(authService.currentUser$ | async) as user; else login" mat-icon-button class="example-icon" style="margin-right: 100px;" (click)="redirectToLogin()" aria-label="Example icon-button with login icon">
+        Welcome {{user.userName |titlecase}} | <mat-icon>logout</mat-icon>
+      </button>
+    </span>
+  </mat-toolbar>
+</p>
+<ng-template #login>
+  <p mat-icon-button class="example-icon" (click)="redirectToLogin()" aria-label="Example icon-button with login icon">
+    <mat-icon>login</mat-icon>
+  </p>
+</ng-template>
