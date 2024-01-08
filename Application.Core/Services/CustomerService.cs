@@ -28,35 +28,35 @@ namespace Application.Core.Services
         }
         public async Task<List<CustomersDto>> GetAllCustomersAsync()
         {
-            List<CustomersDto> customerDto = new List<CustomersDto>();
+            List<CustomersDto> customer = new List<CustomersDto>();
             var result = await _repository.GetAllAsync();
             if (result != null)
             {
-                customerDto = _mapper.Map<List<Customer>, List<CustomersDto>>(result);
+                customer = _mapper.Map<List<Customer>, List<CustomersDto>>(result);
             }
-            return customerDto;
+            return customer;
         }
 
         public async Task<CustomersDto> GetCustomerAsync(int id)
         {
-            CustomersDto customerDto = new CustomersDto();
+            CustomersDto customer = new CustomersDto();
             var result = await _repository.GetAsync(id);
 
             if (result != null)
             {
-                customerDto = _mapper.Map<Customer, CustomersDto>(result);
+                customer = _mapper.Map<Customer, CustomersDto>(result);
             }
-            return customerDto;
+            return customer;
         }
-        public async Task<ResponseDto> AddCustomerAsync(CustomersDto customer)
+        public async Task<ResponseDto> AddCustomerAsync(CustomersDto customerRequest)
         {
             ResponseDto response = null;
-            CustomersDto customerDto = new CustomersDto();
+            //CustomersDto customerDto = new CustomersDto();
 
-            Customer customerMapping= _mapper.Map<CustomersDto, Customer>(customer);
-            customerMapping.AlternateId = Guid.NewGuid().ToString();
+            Customer customer= _mapper.Map<CustomersDto, Customer>(customerRequest);
+            customer.AlternateId = Guid.NewGuid().ToString();
 
-            var result = await _repository.AddAsync(customerMapping);
+            var result = await _repository.AddAsync(customer);
 
             if (result)
             {
@@ -72,10 +72,10 @@ namespace Application.Core.Services
             return response;
         }
 
-        public async Task<ResponseDto> DeleteCustomerAsync(Customer customer)
+        public async Task<ResponseDto> DeleteCustomerAsync(Customer customerRequest)
         {
             ResponseDto response = null;
-            var result = await _repository.DeleteAsync(customer);
+            var result = await _repository.DeleteAsync(customerRequest);
             if (result)
             {
                 response = await _responseMessageService.ResponseMessage(result, new List<string[]> { new[] { "deleting customer was successful", "Thank you!" } });
@@ -89,10 +89,10 @@ namespace Application.Core.Services
             return response;
         }
 
-        public async Task<ResponseDto> UpdateCustomerAsync(Customer customer)
+        public async Task<ResponseDto> UpdateCustomerAsync(Customer customerRequest)
         {
             ResponseDto response = null;
-            var result = await _repository.UpdateAsync(customer);
+            var result = await _repository.UpdateAsync(customerRequest);
 
             if (result)
             {

@@ -27,35 +27,35 @@ namespace Application.Core.Services
         }
         public async Task<List<PersonDto>> GetAllPersonAsync()
         {
-            List<PersonDto> personDto = new List<PersonDto>();
+            List<PersonDto> person = new List<PersonDto>();
             var result = await _repository.GetAllAsync();
             if (result != null)
-            { personDto = _mapper.Map<List<Person>, List<PersonDto>>(result);
+            { person = _mapper.Map<List<Person>, List<PersonDto>>(result);
             }
-            return personDto;
+            return person;
         }
 
         public async Task<PersonDto> GetPersonAsync(int id)
         {
-            PersonDto personDto = new PersonDto();
+            PersonDto person = new PersonDto();
             var result = await _repository.GetAsync(id);
 
             if (result != null)
             {
-                personDto = _mapper.Map<Person, PersonDto>(result);
+                person = _mapper.Map<Person, PersonDto>(result);
             }
-            return personDto;
+            return person;
         }
-        public async Task<ResponseDto> AddPersonAsync(PersonDto person)
+        public async Task<ResponseDto> AddPersonAsync(PersonDto personRequest)
         {
             ResponseDto response = null;
-            PersonDto personDto = new PersonDto();
+            //PersonDto personDto = new PersonDto();
 
-            Person personMapping = _mapper.Map<PersonDto, Person>(person);
-            personMapping.AlternateId = Guid.NewGuid().ToString();
+            Person person = _mapper.Map<PersonDto, Person>(personRequest);
+            //personMapping.AlternateId = Guid.NewGuid().ToString();
 
 
-            var result = await _repository.AddAsync(personMapping);
+            var result = await _repository.AddAsync(person);
 
             if (result)
             {
@@ -71,10 +71,10 @@ namespace Application.Core.Services
             return response;
         }
 
-        public async Task<ResponseDto> DeletePersonAsync(Person person)
+        public async Task<ResponseDto> DeletePersonAsync(Person personRequest)
         {
             ResponseDto response = null;
-            var result = await _repository.DeleteAsync(person);
+            var result = await _repository.DeleteAsync(personRequest);
             if (result)
             {
                 response = await _responseMessageService.ResponseMessage(result, new List<string[]> { new[] { "deleting person was successful", "Thank you!" } });
@@ -88,10 +88,10 @@ namespace Application.Core.Services
             return response;
         }
 
-        public async Task<ResponseDto> UpdatePersonAsync(Person person)
+        public async Task<ResponseDto> UpdatePersonAsync(Person personRequest)
         {
             ResponseDto response = null;
-            var result = await _repository.UpdateAsync(person);
+            var result = await _repository.UpdateAsync(personRequest);
 
             if (result)
             {
