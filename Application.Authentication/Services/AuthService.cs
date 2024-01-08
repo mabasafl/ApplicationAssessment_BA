@@ -33,7 +33,7 @@ namespace Application.Authentication.Services
         }
         public async Task<Users> RegisterUser(UserDto user)
         {
-            CreatePasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            createPasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
             var newUser = new Users
             {
                 Username = user.Username,
@@ -61,7 +61,7 @@ namespace Application.Authentication.Services
             }
 
             bool verifyPassword =
-                VerifyPasswordHash(user.Password, existingUser.PasswordHash, existingUser.PasswordSalt);
+                verifyPasswordHash(user.Password, existingUser.PasswordHash, existingUser.PasswordSalt);
             if (!verifyPassword)
             {
                 return new AuthResponseDto
@@ -72,9 +72,9 @@ namespace Application.Authentication.Services
                 };
             }
 
-            string token = CreateToken(existingUser);
-            var refreshtoken = CreateRefreshToken();
-            SetRefreshToken(refreshtoken, existingUser);
+            string token = createToken(existingUser);
+            var refreshtoken = createRefreshToken();
+            setRefreshToken(refreshtoken, existingUser);
             return new AuthResponseDto
             {
                 Message = "User logged in successfully",
@@ -117,9 +117,9 @@ namespace Application.Authentication.Services
                 };
             }
 
-            string token = CreateToken(user);
-            var newRefreshToken = CreateRefreshToken();
-            SetRefreshToken(newRefreshToken, user);
+            string token = createToken(user);
+            var newRefreshToken = createRefreshToken();
+            setRefreshToken(newRefreshToken, user);
 
             return new AuthResponseDto()
             {
@@ -130,7 +130,7 @@ namespace Application.Authentication.Services
             };
         }
 
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        private void createPasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())
             {
@@ -139,7 +139,7 @@ namespace Application.Authentication.Services
             }
         }
 
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        private bool verifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512(passwordSalt))
             {
@@ -148,7 +148,7 @@ namespace Application.Authentication.Services
             }
         }
 
-        private string CreateToken(Users user)
+        private string createToken(Users user)
         {
             List<Claim> claims = new List<Claim>
             {
@@ -162,7 +162,7 @@ namespace Application.Authentication.Services
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires:DateTime.Now.AddMinutes(1),
+                expires:DateTime.Now.AddMinutes(60),
                 signingCredentials: credentials
                 );
 
@@ -171,19 +171,19 @@ namespace Application.Authentication.Services
 
         }
 
-        private RefreshToken CreateRefreshToken()
+        private RefreshToken createRefreshToken()
         {
             var refreshToken = new RefreshToken
             {
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-                Expires = DateTime.Now.AddMinutes(10),
+                Expires = DateTime.Now.AddMinutes(60),
                 Created = DateTime.Now
             };
 
             return refreshToken;
         }
 
-        private async Task SetRefreshToken(RefreshToken refreshToken, Users user)
+        private async Task setRefreshToken(RefreshToken refreshToken, Users user)
         {
             var cookieOptions = new CookieOptions
             {

@@ -12,10 +12,10 @@ using Application.Core.Repositories.Interfaces;
 
 namespace Application.Core.Helpers
 {
-    public class ValidationService<T> : IValidationService<T> where T : class
+    public class ValidationService<Entity> : IValidationService<Entity> where Entity : class
     {
-        private readonly IBaseRepository<T> _repository;
-        public ValidationService(IBaseRepository<T> repository)
+        private readonly IBaseRepository<Entity> _repository;
+        public ValidationService(IBaseRepository<Entity> repository)
         {
             _repository = repository;
         }
@@ -28,12 +28,12 @@ namespace Application.Core.Helpers
 
             if (string.IsNullOrWhiteSpace(name))
             {
-                errorMessages.Add(new[] { typeof(T).Name + " cannot be empty. Name is required" });
+                errorMessages.Add(new[] { typeof(Entity).Name + " cannot be empty. Name is required" });
             }
 
             if (!regexValid)
             {
-                errorMessages.Add(new [] {$"{name} is not a valid {typeof(T).Name} name"});
+                errorMessages.Add(new [] {$"{name} is not a valid {typeof(Entity).Name} name"});
             }
 
             var existingRecord = await _repository.GetAllAsync();
@@ -46,17 +46,17 @@ namespace Application.Core.Helpers
                     if (propertyName != null)
                     {
                         string propertyValue = propertyName.GetValue(item).ToString().ToLower();
-                        if (!string.IsNullOrWhiteSpace(propertyValue) || propertyValue== name.ToLower())
+                        if (propertyValue== name.ToLower())
                         {
-                            errorMessages.Add(new[] {$"{name} already exists. {typeof(T).Name} name should be unique"});
+                            errorMessages.Add(new[] {$"{name} already exists. {typeof(Entity).Name} name should be unique"});
                         }
                     }
                     
-                    if (typeof(T).Name.ToString() == "Person")
+                    if (typeof(Entity).Name.ToString() == "Person")
                     {
                         if (item.GetType().GetProperty("EmailAddress").GetValue(item).ToString() == name.ToLower())
                         {
-                            errorMessages.Add(new [] {$"{name} already exists. {typeof(T).Name}'s email address should be unique"});
+                            errorMessages.Add(new [] {$"{name} already exists. {typeof(Entity).Name}'s email address should be unique"});
                         }
                     }
                 }

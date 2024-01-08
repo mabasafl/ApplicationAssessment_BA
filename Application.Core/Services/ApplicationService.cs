@@ -28,36 +28,36 @@ namespace Application.Core.Services
         }
         public async Task<List<ApplicationsDto>> GetAllApplicationsAsync()
         {
-            List<ApplicationsDto> applicationDto = new List<ApplicationsDto>();
+            List<ApplicationsDto> application = new List<ApplicationsDto>();
             var result = await _repository.GetAllAsync();
             if (result != null)
             {
-                applicationDto = _mapper.Map<List<Applications>, List<ApplicationsDto>>(result);
+                application = _mapper.Map<List<Applications>, List<ApplicationsDto>>(result);
             }
-            return applicationDto;
+            return application;
 
 
         }
         public async Task<ApplicationsDto> GetApplicationsAsync(int id)
         {
-            ApplicationsDto applicationDto = new ApplicationsDto();
+            ApplicationsDto application = new ApplicationsDto();
             var result = await _repository.GetAsync(id);
 
             if (result != null)
             {
-                applicationDto = _mapper.Map<Applications, ApplicationsDto>(result);
+                application = _mapper.Map<Applications, ApplicationsDto>(result);
             }
-            return applicationDto;
+            return application;
         }
-        public async Task<ResponseDto> AddApplicationAsync(ApplicationsDto applications)
+        public async Task<ResponseDto> AddApplicationAsync(ApplicationsDto applicationRequest)
         {
             ResponseDto response = null;
-            ApplicationsDto applicationDto = new ApplicationsDto();
+            //ApplicationsDto applicationDto = new ApplicationsDto();
 
-            Applications appl = _mapper.Map<ApplicationsDto, Applications>(applications);
+            Applications application = _mapper.Map<ApplicationsDto, Applications>(applicationRequest);
 
 
-            var result = await _repository.AddAsync(appl);
+            var result = await _repository.AddAsync(application);
 
             if (result)
             {
@@ -72,10 +72,10 @@ namespace Application.Core.Services
 
             return response;
         }
-        public async Task<ResponseDto> UpdateApplicationAsync(Applications application)
+        public async Task<ResponseDto> UpdateApplicationAsync(Applications applicationRequest)
         {
             ResponseDto response = null;
-            var result = await _repository.UpdateAsync(application);
+            var result = await _repository.UpdateAsync(applicationRequest);
 
             if (result)
             {
@@ -89,10 +89,10 @@ namespace Application.Core.Services
 
             return response;
         }
-        public async Task<ResponseDto> DeleteApplicationAsync(Applications application)
+        public async Task<ResponseDto> DeleteApplicationAsync(Applications applicationRequest)
         {
             ResponseDto response = null;
-            var result = await _repository.DeleteAsync(application);
+            var result = await _repository.DeleteAsync(applicationRequest);
             if (result)
             {
                 response = await _responseMessageService.ResponseMessage(result, new List<string[]>{new[] { "deleting application was successful", "Thank you!" }});
