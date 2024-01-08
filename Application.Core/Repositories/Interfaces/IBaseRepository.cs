@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 
 namespace Application.Core.Repositories.Interfaces
 {
-    public interface IBaseRepository<T> where T : class
+    public interface IBaseRepository<Entity> where Entity : class
     {
-        Task<bool> AddAsync(T entity);
-        Task<bool> UpdateAsync(T entity);
-        Task<bool> DeleteAsync(T entity);
-        Task<T> GetAsync(int id);
-        Task<List<T>> GetAllAsync();
+        Task<bool> AddAsync(Entity entity);
+        Task<bool> UpdateAsync(Entity entity);
+        Task<bool> DeleteAsync(Entity entity);
+        Task<Entity> GetAsync(int id);
+        Task<Entity> GetByNameAsync(Expression<Func<Entity, bool>> predicate = null);
+        Task<List<Entity>> GetAllAsync();
+        Task<int> SaveChangesAsync();
     }
 }

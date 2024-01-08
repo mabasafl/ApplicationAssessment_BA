@@ -3,13 +3,9 @@ using System.Collections.Generic;
 
 namespace Application.Data.Models.Core
 {
-    public partial class 
+    public class 
         Applications
     {
-        //public Applications()
-        //{
-        //    ApplicationCustomers = new HashSet<ApplicationCustomer>();
-        //}
 
         public int Id { get; set; }
         public string AlternateId { get; set; } = new Guid().ToString();
@@ -19,6 +15,5 @@ namespace Application.Data.Models.Core
         public DateTime? DateModified { get; set; }
         public string? ModifiedBy { get; set; }
 
-        //public virtual ICollection<ApplicationCustomer> ApplicationCustomers { get; set; }
     }
 }

@@ -15,6 +15,7 @@ namespace Application.Authentication.Interface
         Task<Users> RegisterUser(UserDto user);
         Task<AuthResponseDto> Login(UserDto user);
         Task<AuthResponseDto> RefreshToken();
+        Task<AuthResponseDto> Logout();
 
     }
 }
