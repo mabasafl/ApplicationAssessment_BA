@@ -3,16 +3,8 @@ using System.Collections.Generic;
 
 namespace Application.Data.Models.Core
 {
-    public partial class Customer
+    public class Customer
     {
-        //public Customer()
-        //{
-        //    ApplicationCustomers = new HashSet<ApplicationCustomer>();
-        //    BusinessAreaRelationships = new HashSet<BusinessAreaRelationship>();
-        //    BusinessAreas = new HashSet<BusinessArea>();
-        //    People = new HashSet<Person>();
-        //}
-
         public int Id { get; set; }
         public string AlternateId { get; set; } 
         public string Name { get; set; } = null!;
@@ -20,11 +12,6 @@ namespace Application.Data.Models.Core
         public string CreatedBy { get; set; } = null!;
         public DateTime? DateModified { get; set; }
         public string? ModifiedBy { get; set; }
-
-        //public virtual ICollection<ApplicationCustomer> ApplicationCustomers { get; set; }
-        //public virtual ICollection<BusinessAreaRelationship> BusinessAreaRelationships { get; set; }
-        //public virtual ICollection<BusinessArea> BusinessAreas { get; set; }
-        //public virtual ICollection<Person> People { get; set; }
 
     }
 }

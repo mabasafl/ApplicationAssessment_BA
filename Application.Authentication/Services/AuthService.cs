@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Application.Authentication.Interface;
+using Application.Core.Repositories.Interfaces;
 using Application.Data.Data;
 using Application.Data.Dtos.Auth;
 using Application.Data.Models.Auth;
@@ -20,15 +21,15 @@ namespace Application.Authentication.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly DataContext _dbContext;
         private readonly IConfiguration _config;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IBaseRepository<Users> _repository;
 
-        public AuthService(DataContext dbContext, IConfiguration config,IHttpContextAccessor httpContextAccessor)
+        public AuthService(IConfiguration config,IHttpContextAccessor httpContextAccessor, IBaseRepository<Users> repository)
         {
-            _dbContext = dbContext;
             _config = config;
             _httpContextAccessor = httpContextAccessor;
+            _repository = repository;
         }
         public async Task<Users> RegisterUser(UserDto user)
         {
@@ -40,15 +41,14 @@ namespace Application.Authentication.Services
                 PasswordSalt = passwordSalt
             };
 
-            await _dbContext.Users.AddAsync(newUser);
-            await _dbContext.SaveChangesAsync();
+            await _repository.AddAsync(newUser);
 
             return newUser;
         }
 
         public async Task<AuthResponseDto> Login(UserDto user)
         {
-            var existingUser = await _dbContext.Users.FirstOrDefaultAsync(x => x.Username == user.Username);
+            var existingUser = await _repository.GetByNameAsync(x => x.Username == user.Username);
 
             if (existingUser == null)
             {
@@ -82,15 +82,25 @@ namespace Application.Authentication.Services
                 Success = true,
                 RefreshToken = refreshtoken.Token,
                 TokenExpires = refreshtoken.Expires
-                
             };
 
         }
 
+        public async Task<AuthResponseDto> Logout()
+        {
+            
+            _httpContextAccessor.HttpContext.Response.Cookies.Delete("refreshToken");
+            
+            return new AuthResponseDto
+            {
+                Message = "User logged out successfully",
+                Success = true
+            };
+        }
         public async Task<AuthResponseDto> RefreshToken()
         {
-            var refreshToken = _httpContextAccessor?.HttpContext?.Request.Cookies["refrestToken"];
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.RefreshToken == refreshToken);
+            var refreshToken = _httpContextAccessor?.HttpContext?.Request.Cookies["refreshToken"];
+            var user = await _repository.GetByNameAsync(x => x.RefreshToken == refreshToken);
 
             if (user == null)
             {
@@ -152,7 +162,7 @@ namespace Application.Authentication.Services
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires:DateTime.Now.AddDays(1),
+                expires:DateTime.Now.AddMinutes(1),
                 signingCredentials: credentials
                 );
 
@@ -166,7 +176,7 @@ namespace Application.Authentication.Services
             var refreshToken = new RefreshToken
             {
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-                Expires = DateTime.Now.AddDays(7),
+                Expires = DateTime.Now.AddMinutes(10),
                 Created = DateTime.Now
             };
 
@@ -185,7 +195,7 @@ namespace Application.Authentication.Services
             user.RefreshToken = refreshToken.Token;
             user.TokenCreated = refreshToken.Created;
             user.TokenExpires = refreshToken.Expires;
-            await _dbContext.SaveChangesAsync();
+            await _repository.SaveChangesAsync();
         }
     }
 }

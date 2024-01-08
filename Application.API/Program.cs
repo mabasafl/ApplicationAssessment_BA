@@ -41,7 +41,6 @@ builder.Services.AddSingleton(mapper);
 #region ...Registering Services
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    //options.UseSqlServer(builder.Configuration.GetConnectionString("InductionDb"), x => x.MigrationsAssembly("Application.API"));
     options.UseSqlServer(builder.Configuration.GetConnectionString("InductionDb"));
 });
 
@@ -72,6 +71,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddCors(options => options.AddPolicy("ClientApp", policy =>
+{
+    policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+}));
 #endregion
 
 
@@ -90,6 +94,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseCors("ClientApp");
 
 app.MapControllers();
 

@@ -15,18 +15,16 @@ namespace Application.Core.Repositories
     {
         private readonly DataContext _dbContext;
         private readonly DbSet<T> _dbSet;
-        private readonly IMapper _mapper;
 
         public BaseRepository(DataContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
             _dbSet = _dbContext.Set<T>();
-            _mapper = mapper;
         }
         public async Task<bool> AddAsync(T entity)
         {
             var add = _dbSet.AddAsync(entity);
-            var saved = await _dbContext.SaveChangesAsync();
+            var saved = await SaveChangesAsync();
             if (saved != 0)
                 return true;
             return false;
@@ -35,7 +33,7 @@ namespace Application.Core.Repositories
         public async Task<bool> DeleteAsync(T entity)
         {
             var delete = _dbSet.Remove(entity);
-            var removed = await _dbContext.SaveChangesAsync();
+            var removed = await SaveChangesAsync();
             if (removed != 0)
                 return true;
             return false;
@@ -44,6 +42,12 @@ namespace Application.Core.Repositories
         public async Task<T> GetAsync(int id)
         {
             var entity = await _dbSet.FindAsync(id);
+            return entity;
+        }
+
+        public async Task<T> GetByNameAsync(Expression<Func<T,bool>> predicate =null)
+        {
+            var entity = await _dbSet.FirstOrDefaultAsync(predicate);
             return entity;
         }
 
@@ -56,10 +60,15 @@ namespace Application.Core.Repositories
         public async Task<bool> UpdateAsync(T entity)
         {
             var update = _dbSet.Update(entity);
-            var modified = await _dbContext.SaveChangesAsync();
+            var modified = await SaveChangesAsync();
             if (modified != 0)
                 return true;
             return false;
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _dbContext.SaveChangesAsync();
         }
     }
 }

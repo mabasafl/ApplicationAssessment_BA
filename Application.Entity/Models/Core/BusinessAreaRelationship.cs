@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Application.Data.Models.Core
 {
-    public partial class BusinessAreaRelationship
+    public class BusinessAreaRelationship
     {
         public int Id { get; set; }
         public string AlternateId { get; set; } = null!;
@@ -16,8 +16,5 @@ namespace Application.Data.Models.Core
         public DateTime? DateModified { get; set; }
         public string? ModifiedBy { get; set; }
 
-        //public virtual BusinessArea? BusinessArea { get; set; }
-        //public virtual Customer Customer { get; set; } = null!;
-        //public virtual BusinessArea? FilteredBusinessArea { get; set; }
     }
 }

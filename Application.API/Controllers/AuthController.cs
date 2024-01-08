@@ -35,6 +35,18 @@ namespace Application.API.Controllers
             return Unauthorized(response.Message);
         }
 
+        [HttpPost("logout")]
+        public async Task<ActionResult> Logout()
+        {
+            var response = await _authService.Logout();
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+
+            return BadRequest("User not logged out");
+        }
+
         [HttpPost("refresh-token")]
         public async Task<ActionResult<string>> RefreshToken()
         {
