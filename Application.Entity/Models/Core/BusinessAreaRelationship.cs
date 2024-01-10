@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.Data.Dtos.Core;
+using System;
 using System.Collections.Generic;
 
 namespace Application.Data.Models.Core

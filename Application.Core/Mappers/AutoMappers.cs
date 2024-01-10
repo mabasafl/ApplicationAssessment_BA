@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Core.Interfaces;
+using Application.Core.Services;
 using Application.Data.Dtos.Core;
 using Application.Data.Models.Core;
 using AutoMapper;
@@ -16,6 +18,8 @@ namespace Application.Core.Mappers
             CreateMap<Applications, ApplicationsDto>().ReverseMap();
             CreateMap<Customer, CustomersDto>().ReverseMap();
             CreateMap<Person, PersonDto>().ReverseMap();
+            CreateMap<BusinessAreaRelationship, BusinessAreaRelationshipDto>().ReverseMap();
+            CreateMap<BusinessArea, BusinessAreaDto>().ReverseMap();
         }
     }
 }

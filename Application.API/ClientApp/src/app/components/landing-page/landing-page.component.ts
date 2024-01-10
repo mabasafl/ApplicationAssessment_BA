@@ -17,7 +17,7 @@ export class LandingPageComponent implements OnInit {
   }
 
   userSignedIn(){
-    var user = localStorage.getItem('user');
+    var user = sessionStorage.getItem('user');
     if(user != null){
       this.isLoggedIn = true;
       

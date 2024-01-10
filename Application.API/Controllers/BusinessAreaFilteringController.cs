@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Application.Core.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.API.Controllers
@@ -7,5 +8,17 @@ namespace Application.API.Controllers
     [ApiController]
     public class BusinessAreaFilteringController : ControllerBase
     {
+        private readonly IBusinessAreaFilteringService _businessAreaFiltering;
+        public BusinessAreaFilteringController(IBusinessAreaFilteringService businessAreaFiltering)
+        {
+            _businessAreaFiltering = businessAreaFiltering;
+        }
+
+        [HttpGet("getAll")]
+        public async Task<IActionResult> GetAllBusinessAreaFiltering(int businessAreaId)
+        {
+            var response = await _businessAreaFiltering.GetAllBusinessAreaRelationshipsAsync(businessAreaId);
+            return Ok(response);
+        }
     }
 }
