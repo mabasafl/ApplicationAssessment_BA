@@ -25,8 +25,11 @@ login(user: User){
       map((res: AuthResult) =>{
         const signedUser = res;
         if(signedUser.success == true){
-          localStorage.setItem('user',JSON.stringify(user));
+          sessionStorage.setItem('user',JSON.stringify(user));
           this.currentUserSource.next(user)
+
+          sessionStorage.setItem('token',res.token);
+
         }
       })
     )
@@ -37,7 +40,7 @@ setCurrentUser(user: User){
 }
 
 logout(){
-  localStorage.removeItem("user");
+  sessionStorage.removeItem("user");
   this.currentUserSource.next(null);
   return this.http.post(`${this.baseUrl}/logout`,null);
 }
