@@ -31,6 +31,8 @@ builder.Services.AddScoped<IApplicationService, ApplicationService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IPersonService, PersonService>();
 builder.Services.AddScoped<IBusinessAreaFilteringService,BusinessAreaFilteringService>();
+builder.Services.AddScoped<IBusinessAreaTypeService,BusinessAreaTypeService>();
+builder.Services.AddScoped<IBusinessAreaService,BusinessAreaService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 #region ...Registering Auto Mapper

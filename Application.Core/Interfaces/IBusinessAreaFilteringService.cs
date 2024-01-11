@@ -11,5 +11,6 @@ namespace Application.Core.Interfaces
     public interface IBusinessAreaFilteringService
     {
         Task<List<BusinessAreaRelationshipDto>> GetAllBusinessAreaRelationshipsAsync(int businessAreaId);
+        Task<List<BusinessAreaRelationshipDto>> GetAllDataBusinessAreaRelationshipsAsync();
     }
 }

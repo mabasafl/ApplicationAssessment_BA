@@ -1,52 +1,75 @@
-<mat-form-field>
+<!--<mat-form-field>
   <mat-label>Filter</mat-label>
   <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
-</mat-form-field>
+</mat-form-field>-->
 
-
-<mat-form-field>
-  <mat-label>Business Area Type 1</mat-label>
-  <mat-select [(ngModel)]="selectedBusinessAreaType" (selectionChange)="getAllBusinessFilters($event.value)">
-    <mat-option *ngFor="let option of businessAreafiltering" [value]="option.businessAreaid">{{option.customerId}}</mat-option>
-  </mat-select>
-</mat-form-field>
-
-
-
-<div class="mat-elevation-z8">
-  <table mat-table [dataSource]="businessAreafiltering" matSort>
-
+  <form [formGroup]="form">
+    <span class="business-filters">
+  
     
-    <ng-container matColumnDef="customerId">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-      <td mat-cell *matCellDef="let row"> {{row.customerId}} </td>
-    </ng-container>
-
-   
-    <ng-container matColumnDef="customerName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Progress </th>
-      <td mat-cell *matCellDef="let row"> {{row.customerName}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="businessAreaName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-      <td mat-cell *matCellDef="let row"> {{row.businessAreaName}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="person">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Fruit </th>
-      <td mat-cell *matCellDef="let row"> {{row.createdBy}} </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-    <!-- Row shown when there is no matching data. -->
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-    </tr>
-  </table>
-
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
-</div>
-
+    <mat-form-field appearance="fill">
+      <mat-label>Business Area Type 1</mat-label>
+      <mat-select formControlName="category" placeholder="Select a business area type 1">
+        <mat-option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Business Area Type 2</mat-label>
+      <mat-select formControlName="subcategory" placeholder="Select a business area type 2">
+        <mat-option *ngFor="let subcategory of subcategories" [value]="subcategory.filteredBusinessAreaId">
+          {{ subcategory.filteredBusinessAreaId }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Business Area Type 3</mat-label>
+      <mat-select formControlName="subcategory" placeholder="Select a business area type 3">
+        <mat-option *ngFor="let subcategory of subcategories" [value]="subcategory.filteredBusinessAreaId">
+          {{ subcategory.filteredBusinessAreaId }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </span>
+  
+  </form>
+  
+  <div class="tbl-container" *ngIf="dataSource">
+    <table mat-table [dataSource]="dataSource" matSort>
+  
+      <ng-container matColumnDef="businessAreaName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Business Area Name </th>
+        <td mat-cell *matCellDef="let row"> {{ row.businessAreaName }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="customerName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer Name </th>
+        <td mat-cell *matCellDef="let row"> {{ row.customerName }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="active">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Active </th>
+        <td mat-cell *matCellDef="let row"> {{ row.isActive }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="createdBy">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Created By </th>
+        <td mat-cell *matCellDef="let row"> {{ row.createdBy }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="dateCreated">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Created </th>
+        <td mat-cell *matCellDef="let row"> {{ row.dateCreated | date}} </td>
+      </ng-container>
+  
+      <!-- Add more columns as needed -->
+  
+      <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: tableColumns"></tr>
+    </table>
+  
+    <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+  </div>

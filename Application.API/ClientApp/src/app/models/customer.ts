@@ -1,10 +1,7 @@
-export interface BusinessArea{
+export interface Customer{
     name: string;
-    businessAreaTypeId: number;
-    customerId: number;
     dateCreated: Date;
     createdBy: string;
     dateModified: Date;
     modifiedBy: string;
-
 }
