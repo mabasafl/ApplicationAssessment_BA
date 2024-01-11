@@ -20,5 +20,12 @@ namespace Application.API.Controllers
             var response = await _businessAreaFiltering.GetAllBusinessAreaRelationshipsAsync(businessAreaId);
             return Ok(response);
         }
+
+        [HttpGet("getAllData")]
+        public async Task<IActionResult> GetAllDataBusinessAreaFiltering()
+        {
+            var response = await _businessAreaFiltering.GetAllDataBusinessAreaRelationshipsAsync();
+            return Ok(response);
+        }
     }
 }

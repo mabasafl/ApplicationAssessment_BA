@@ -31,9 +31,15 @@ namespace Application.Core.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<BusinessAreaDto>> GetAllBusinessAreasAsync()
+        public async Task<List<BusinessAreaDto>> GetAllBusinessAreasAsync()
         {
-            throw new NotImplementedException();
+            List<BusinessAreaDto> businessAreas = new List<BusinessAreaDto>();
+            var result = await _repository.GetAllAsync();
+            if (result != null)
+            {
+                businessAreas = _mapper.Map<List<BusinessArea>, List<BusinessAreaDto>>(result);
+            }
+            return businessAreas;
         }
 
         public async Task<BusinessAreaDto> GetBusinessAreaAsync(int id)

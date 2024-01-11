@@ -48,7 +48,6 @@ namespace Application.Core.Services
                         relationship.customer = customer;
 
                         businessAreaRelationship.Add(relationship);
-                        
                     }
 
                     if (businessAreaRelationship.Count > 0) return businessAreaRelationship;
@@ -63,6 +62,44 @@ namespace Application.Core.Services
             }
 
 
+        }
+
+        public async Task<List<BusinessAreaRelationshipDto>> GetAllDataBusinessAreaRelationshipsAsync()
+        {
+            try
+            {
+                List<BusinessAreaRelationshipDto> businessAreaRelationships = new List<BusinessAreaRelationshipDto>();
+
+                var result = await _repository.GetAllAsync();
+
+                if (result.Count > 0)
+                {
+                    var businessAreaRelationship = _mapper.Map<List<BusinessAreaRelationship>, List<BusinessAreaRelationshipDto>>(result);
+
+                    //var filteredBusinessArea = businessAreaRelationship.Where(x => x.BusinessAreaId == businessAreaId && x.IsActive == true);
+                    foreach (var relationship in businessAreaRelationship)
+                    {
+                        var customer = await _customerServices.GetCustomerAsync(relationship.CustomerId);
+                        relationship.CustomerName = customer.Name;
+
+                        var businessArea = await _businessAreaService.GetBusinessAreaAsync(relationship.BusinessAreaId.Value);
+                        relationship.BusinessAreaName = businessArea.Name;
+
+                        relationship.customer = customer;
+
+                        businessAreaRelationships.Add(relationship);
+                    }
+
+                    if (businessAreaRelationship.Count > 0) return businessAreaRelationships;
+
+                }
+
+                return businessAreaRelationships;
+            }
+            catch (Exception e)
+            {
+                return new List<BusinessAreaRelationshipDto>();
+            }
         }
     }
 }

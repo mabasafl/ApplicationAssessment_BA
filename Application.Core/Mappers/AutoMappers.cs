@@ -20,6 +20,7 @@ namespace Application.Core.Mappers
             CreateMap<Person, PersonDto>().ReverseMap();
             CreateMap<BusinessAreaRelationship, BusinessAreaRelationshipDto>().ReverseMap();
             CreateMap<BusinessArea, BusinessAreaDto>().ReverseMap();
+            CreateMap<BusinessAreaType, BusinessAreaTypeDto>().ReverseMap();
         }
     }
 }

@@ -34,7 +34,7 @@ import { MatTableModule} from '@angular/material/table';
     HeaderComponent,
     HomeComponent,
     BusinessAreaFilteringComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

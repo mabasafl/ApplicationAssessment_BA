@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { BusinessAreaFiltering } from 'src/app/models/business-area';
+import { BusinessAreaFiltering } from 'src/app/models/business-area-filtering';
+import { BusinessAreaType } from 'src/app/models/business-area-type';
 import { BuinsessAreaFilteringService } from 'src/app/services/buinsess-area-filtering.service';
 
 @Component({
@@ -12,73 +13,67 @@ import { BuinsessAreaFilteringService } from 'src/app/services/buinsess-area-fil
   styleUrls: ['./business-area-filtering.component.scss']
 })
 
+export class BusinessAreaFilteringComponent implements OnInit {
 
-export class BusinessAreaFilteringComponent implements OnInit,AfterViewInit {
-
-
-
-
-
-  displayedColumns: string[] = ['customerId', 'customerName', 'businessAreaName', 'person'];
-  dataSource: MatTableDataSource<BusinessAreaFiltering>;
+  form!: FormGroup;
+  categories!: BusinessAreaType[];
+  subcategories!: BusinessAreaFiltering[];
+  tableData!: BusinessAreaFiltering[];
+  tableColumns!: string[];
+  dataSource!: MatTableDataSource<BusinessAreaFiltering>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  businessAreafiltering: BusinessAreaFiltering[] = [];
-selectedBusinessAreaType!: number ;
-options: BusinessAreaFiltering[] = [];
-filteredOptions:BusinessAreaFiltering[] = [];
-filteredTableData: BusinessAreaFiltering[] = [];
-filterValue = '';
-
-  constructor(private businessAreaFilteringService: BuinsessAreaFilteringService) {;
-
-  this.getAllBusinessFilters(1);
-  // Assign the data to the data source for the table to render
-  this.dataSource = new MatTableDataSource(this.businessAreafiltering);}
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    
+  constructor(
+    private fb: FormBuilder,
+    private businessAreaService: BuinsessAreaFilteringService
+  ) {
+    this.tableColumns = ['businessAreaName', 'customerName', 'active', 'createdBy', 'dateCreated'];
   }
 
   ngOnInit() {
-    if(this.businessAreafiltering.length > 0){  
-      this.getAllBusinessFilters(1);
-  }
-  }
+    this.form = this.fb.group({
+      category: new FormControl(),
+      subcategory: new FormControl(),
+    });
 
-  applyFilter(event: Event) {
-    /*const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.businessAreaService.getBusinessAreaTypes().subscribe((categories) => {
+      this.categories = categories;
+    });
 
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }*/
+    this.form.get('category')?.valueChanges.subscribe((businessAreaId) => {
+      if (businessAreaId) {
+        this.businessAreaService.getAllBusinessAreaFiltering(businessAreaId).subscribe(
+          (subcategories) => {
+            this.subcategories = subcategories;
+            this.form.get('subcategory')?.setValue(null);
+          }
+        );
+      } else {
+        this.subcategories = [];
+        this.form.get('subcategory')?.setValue(null);
+      }
+    });
 
-    this.filteredOptions = this.businessAreafiltering.filter(option => option.createdBy.toLowerCase().includes(this.filterValue.toLowerCase()));
-
-    
-
-  }
-
-  getTableData(id: number){
- this.getAllBusinessFilters(id);
-  }
-
-  getAllBusinessFilters(id: number){
-    this.businessAreaFilteringService.getAllBusinessAreaFiltering(id).subscribe(
-      res => {
-        if(res){
-          this.businessAreafiltering = res;
-          console.log(this.businessAreafiltering);
-          return
+    this.form.get('subcategory')?.valueChanges.subscribe(
+      (subcategoryId) => {
+        if (subcategoryId) {
+          this.businessAreaService.getData().subscribe(
+            (tableData) => {
+              this.tableData = tableData;
+              this.dataSource = new MatTableDataSource<BusinessAreaFiltering>(this.tableData);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+            }
+          );
+        } else {
+          this.tableData = [];
+          this.dataSource = new MatTableDataSource<BusinessAreaFiltering>(this.tableData);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
         }
       }
-    )
+    );
   }
-
-  
-
 }

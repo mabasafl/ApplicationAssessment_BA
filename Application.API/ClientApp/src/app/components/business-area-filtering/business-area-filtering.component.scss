@@ -10,4 +10,25 @@ table {
   td, th {
     width: 25%;
   }
+
+  .tbl-container{
+    margin-right: 100px;
+    margin-left: 100px;
+  }
+
+  .business-filters{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 5px;
+    margin-bottom: 20px;
+  }
+
+  mat-select{
+    padding-top:15px;
+  }
+
+  mat-form-field{
+    width:300px;
+    text-align:center;
+  }
   

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Application.Data.Dtos.Core
 {
-    public class BusinessAreaType : BaseDto
+    public class BusinessAreaTypeDto : BaseDto
     {
+        public string Id { get; set; }
         public string Name { get; set; } = null!;
     }
 }
