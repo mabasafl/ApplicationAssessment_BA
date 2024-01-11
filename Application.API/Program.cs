@@ -12,6 +12,7 @@ using Application.Data.Models.Core;
 using Application.Core.Repositories;
 using Application.Core.Repositories.Interfaces;
 using Application.Core.Services;
+using Application.DataTransfer.Dtos.Core;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -24,16 +25,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-builder.Services.AddScoped(typeof(IValidationService<>), typeof(ValidationService<>));
 
-builder.Services.AddScoped<IApplicationService, ApplicationService>();
-builder.Services.AddScoped<ICustomerService, CustomerService>();
-builder.Services.AddScoped<IPersonService, PersonService>();
-builder.Services.AddScoped<IBusinessAreaFilteringService,BusinessAreaFilteringService>();
-builder.Services.AddScoped<IBusinessAreaTypeService,BusinessAreaTypeService>();
-builder.Services.AddScoped<IBusinessAreaService,BusinessAreaService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
 
 #region ...Registering Auto Mapper
 var automapper = new MapperConfiguration(item => item.AddProfile(new AutoMappers()));
@@ -42,6 +34,19 @@ builder.Services.AddSingleton(mapper);
 #endregion
 
 #region ...Registering Services
+builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+
+builder.Services.AddScoped<IDirectoryService<Applications, ApplicationsDto>, DirectoryService<Applications, ApplicationsDto>>();
+builder.Services.AddScoped<IDirectoryService<Customer, CustomersDto>, DirectoryService<Customer, CustomersDto>>();
+builder.Services.AddScoped<IDirectoryService<BusinessArea, BusinessAreaDto>, DirectoryService<BusinessArea, BusinessAreaDto>>();
+builder.Services.AddScoped<IDirectoryService<BusinessAreaType, BusinessAreaTypeDto>, DirectoryService<BusinessAreaType, BusinessAreaTypeDto>>();
+builder.Services.AddScoped<IDirectoryService<Person, PersonDto>, DirectoryService<Person, PersonDto>>();
+
+builder.Services.AddScoped(typeof(IValidationHelper<>), typeof(ValidationHelper<>));
+builder.Services.AddScoped<INewInstanceHelper, NewInstanceHelper>();
+builder.Services.AddScoped<IBusinessAreaFilteringService, BusinessAreaFilteringService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("InductionDb"));
@@ -49,6 +54,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2",new OpenApiSecurityScheme
@@ -61,6 +67,7 @@ builder.Services.AddSwaggerGen(options =>
 
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters()

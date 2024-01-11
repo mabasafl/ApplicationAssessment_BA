@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.Core.Interfaces;
 using Application.Core.Services;
-using Application.Data.Dtos.Core;
+using Application.DataTransfer.Dtos.Core;
 using Application.Data.Models.Core;
 using AutoMapper;
 

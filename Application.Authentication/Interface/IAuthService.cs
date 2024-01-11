@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Application.Data.Dtos.Auth;
 using Application.Data.Models.Auth;
+using Application.DataTransfer.Dtos.Auth;
 
 namespace Application.Authentication.Interface
 {

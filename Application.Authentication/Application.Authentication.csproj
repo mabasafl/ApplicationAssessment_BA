@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Application.Core\Application.Core.csproj" />
+    <ProjectReference Include="..\Application.DataTransfer\Application.DataTransfer.csproj" />
     <ProjectReference Include="..\Application.Entity\Application.Data.csproj" />
   </ItemGroup>
 

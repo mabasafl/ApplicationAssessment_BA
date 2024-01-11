@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Application.DataTransfer\Application.DataTransfer.csproj" />
     <ProjectReference Include="..\Application.Entity\Application.Data.csproj" />
   </ItemGroup>
 
