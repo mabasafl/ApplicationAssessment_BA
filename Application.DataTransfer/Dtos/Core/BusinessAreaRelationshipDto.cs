@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Application.Data.Models.Core;
 
-namespace Application.Data.Dtos.Core
+namespace Application.DataTransfer.Dtos.Core
 {
     public class BusinessAreaRelationshipDto : BaseDto
     {

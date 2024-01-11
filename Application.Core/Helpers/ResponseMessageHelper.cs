@@ -1,4 +1,4 @@
-﻿using Application.Data.Dtos.Core;
+﻿using Application.DataTransfer.Dtos.Core;
 using Application.Core.Helpers.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Application.Core.Helpers
 {
-    public class ResponseMessageService : IResponseMessageService
+    public class ResponseMessageHelper : IResponseMessageHelper
     {
         public async Task<ResponseDto> ResponseMessage(bool success, List<string[]> message)
         {
-            var responseBody = new ResponseDto
+            ResponseDto responseBody = new ResponseDto
             {
                 Success = success,
                 Message = message,

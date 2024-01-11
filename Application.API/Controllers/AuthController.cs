@@ -1,7 +1,7 @@
 ﻿
 using Application.Authentication.Interface;
-using Application.Data.Dtos.Auth;
 using Application.Data.Models.Auth;
+using Application.DataTransfer.Dtos.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,14 +19,14 @@ namespace Application.API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<Users>> RegisterUser(UserDto user)
         {
-            var response = await _authService.RegisterUser(user);
+            Users response = await _authService.RegisterUser(user);
             return Ok(response);
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<Users>> Login(UserDto user)
         {
-            var response = await _authService.Login(user);
+            AuthResponseDto response = await _authService.Login(user);
             if (response.Success)
             {
                 return Ok(response);
@@ -38,7 +38,7 @@ namespace Application.API.Controllers
         [HttpPost("logout")]
         public async Task<ActionResult> Logout()
         {
-            var response = await _authService.Logout();
+            AuthResponseDto response = await _authService.Logout();
             if (response.Success)
             {
                 return Ok(response);
@@ -50,7 +50,7 @@ namespace Application.API.Controllers
         [HttpPost("refresh-token")]
         public async Task<ActionResult<string>> RefreshToken()
         {
-            var response = await _authService.RefreshToken();
+            AuthResponseDto response = await _authService.RefreshToken();
             if (response.Success)
             {
                 return Ok(response);

@@ -6,12 +6,11 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-
 using Application.Authentication.Interface;
 using Application.Core.Repositories.Interfaces;
 using Application.Data.Data;
-using Application.Data.Dtos.Auth;
 using Application.Data.Models.Auth;
+using Application.DataTransfer.Dtos.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -34,7 +33,7 @@ namespace Application.Authentication.Services
         public async Task<Users> RegisterUser(UserDto user)
         {
             createPasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
-            var newUser = new Users
+            Users newUser = new Users
             {
                 Username = user.Username,
                 PasswordHash = passwordHash,
@@ -48,7 +47,7 @@ namespace Application.Authentication.Services
 
         public async Task<AuthResponseDto> Login(UserDto user)
         {
-            var existingUser = await _repository.GetByNameAsync(x => x.Username == user.Username);
+            Users existingUser = await _repository.GetByNameAsync(x => x.Username == user.Username);
 
             if (existingUser == null)
             {
@@ -73,7 +72,7 @@ namespace Application.Authentication.Services
             }
 
             string token = createToken(existingUser);
-            var refreshtoken = createRefreshToken();
+             RefreshToken refreshtoken = createRefreshToken();
             setRefreshToken(refreshtoken, existingUser);
             return new AuthResponseDto
             {
@@ -99,8 +98,8 @@ namespace Application.Authentication.Services
         }
         public async Task<AuthResponseDto> RefreshToken()
         {
-            var refreshToken = _httpContextAccessor?.HttpContext?.Request.Cookies["refreshToken"];
-            var user = await _repository.GetByNameAsync(x => x.RefreshToken == refreshToken);
+            string refreshToken = _httpContextAccessor?.HttpContext?.Request.Cookies["refreshToken"];
+            Users user = await _repository.GetByNameAsync(x => x.RefreshToken == refreshToken);
 
             if (user == null)
             {
@@ -118,7 +117,7 @@ namespace Application.Authentication.Services
             }
 
             string token = createToken(user);
-            var newRefreshToken = createRefreshToken();
+            RefreshToken newRefreshToken = createRefreshToken();
             setRefreshToken(newRefreshToken, user);
 
             return new AuthResponseDto()
@@ -132,7 +131,7 @@ namespace Application.Authentication.Services
 
         private void createPasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
-            using (var hmac = new HMACSHA512())
+            using (HMACSHA512 hmac = new HMACSHA512())
             {
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
@@ -141,9 +140,9 @@ namespace Application.Authentication.Services
 
         private bool verifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
-            using (var hmac = new HMACSHA512(passwordSalt))
+            using (HMACSHA512 hmac = new HMACSHA512(passwordSalt))
             {
-                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                byte[] computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
                 return computedHash.SequenceEqual(passwordHash);
             }
         }
@@ -156,24 +155,24 @@ namespace Application.Authentication.Services
                 new Claim(ClaimTypes.Name, user.Username)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("Authentication:Secret_key").Value));
+            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("Authentication:Secret_key").Value));
 
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            SigningCredentials credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
-            var token = new JwtSecurityToken(
+            JwtSecurityToken token = new JwtSecurityToken(
                 claims: claims,
                 expires:DateTime.Now.AddMinutes(60),
                 signingCredentials: credentials
                 );
 
-            var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);  
+            string jwtToken = new JwtSecurityTokenHandler().WriteToken(token);  
             return jwtToken;
 
         }
 
         private RefreshToken createRefreshToken()
         {
-            var refreshToken = new RefreshToken
+            RefreshToken refreshToken = new RefreshToken
             {
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
                 Expires = DateTime.Now.AddMinutes(60),
@@ -185,7 +184,7 @@ namespace Application.Authentication.Services
 
         private async Task setRefreshToken(RefreshToken refreshToken, Users user)
         {
-            var cookieOptions = new CookieOptions
+            CookieOptions cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
                 Expires = refreshToken.Expires

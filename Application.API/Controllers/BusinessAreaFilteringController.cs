@@ -1,4 +1,6 @@
 ﻿using Application.Core.Interfaces;
+using Application.Data.Models.Core;
+using Application.DataTransfer.Dtos.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,14 +19,14 @@ namespace Application.API.Controllers
         [HttpGet("getAll")]
         public async Task<IActionResult> GetAllBusinessAreaFiltering(int businessAreaId)
         {
-            var response = await _businessAreaFiltering.GetAllBusinessAreaRelationshipsAsync(businessAreaId);
+            List<BusinessAreaRelationshipDto> response = await _businessAreaFiltering.GetAllBusinessAreaRelationshipsAsync(businessAreaId);
             return Ok(response);
         }
 
         [HttpGet("getAllData")]
         public async Task<IActionResult> GetAllDataBusinessAreaFiltering()
         {
-            var response = await _businessAreaFiltering.GetAllDataBusinessAreaRelationshipsAsync();
+            List<BusinessAreaRelationshipDto> response = await _businessAreaFiltering.GetAllDataBusinessAreaRelationshipsAsync();
             return Ok(response);
         }
     }

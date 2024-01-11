@@ -1,4 +1,5 @@
-﻿using Application.Core.Repositories.Interfaces;
+﻿using Application.Core.Interfaces;
+using Application.DataTransfer.Dtos.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,48 +7,47 @@ namespace Application.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DirectoryController<T> : ControllerBase where T : class
+    public class DirectoryController<Entity,Dto> : ControllerBase where Entity : class
     {
-        private readonly IBaseRepository<T> _baseRepository;
+        private readonly IDirectoryService<Entity,Dto> _directoryService;
 
-        public DirectoryController(IBaseRepository<T> baseRepository)
+        public DirectoryController(IDirectoryService<Entity,Dto> directoryService)
         {
-            _baseRepository = baseRepository;
+            _directoryService = directoryService;
         }
 
         [HttpGet("getAll")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
-            var response = _baseRepository.GetAllAsync();
+            List<Dto> response = await _directoryService.GetAllDirectoryAsync();
             return Ok(response);
         }
 
         [HttpGet("get")]
-        //public T Get(int id)
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetAsync(int id)
         {
-            var response = _baseRepository.GetAsync(id);
+            Dto response = await _directoryService.GetDirectoryAsync(id);
             return Ok(response);
         }
 
         [HttpPost("post")]
-        public async Task<IActionResult> Post(T entity)
+        public async Task<IActionResult> PostAsync(Dto entity)
         {
-            var response = _baseRepository.AddAsync(entity);
+            ResponseDto response = await _directoryService.AddDirectoryAsync(entity);
             return Ok(response);
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> Put(T entity)
+        public async Task<IActionResult> UpdateAsync(Entity entity)
         {
-            var response = _baseRepository.UpdateAsync(entity);
+            ResponseDto response = await _directoryService.UpdateDirectoryAsync(entity);
             return Ok(response);
         }
 
         [HttpDelete("delete")]
-        public async Task<IActionResult> Delete(T entity)
+        public async Task<IActionResult> DeleteAsync(Entity entity)
         {
-            var response = _baseRepository.DeleteAsync(entity);
+            ResponseDto response = await _directoryService.DeleteDirectoryAsync(entity);
             return Ok(response);
         }
 
