@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace Application.Core.Interfaces
 {
@@ -14,6 +15,7 @@ namespace Application.Core.Interfaces
         Task<ResponseDto> UpdateDirectoryAsync(Entity directoryData);
         Task<List<Dto>> GetAllDirectoryAsync();
         Task<Dto> GetDirectoryAsync(int id);
+        Task<Dto> GetDirectoryByNameAsync(Expression<Func<Entity, bool>> predicate);
         Task<ResponseDto> DeleteDirectoryAsync(Entity directoryData);
     }
 }

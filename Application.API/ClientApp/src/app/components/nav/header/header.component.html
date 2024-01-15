@@ -7,6 +7,9 @@
       <span>Business Area Application</span>
     </span>
     <span>
+      <button class="crud-nav" *ngIf="(authService.currentUser$ | async) as user"> Person CRUD operations</button>
+    </span>
+    <span>
       <button *ngIf="(authService.currentUser$ | async) as user; else login" mat-icon-button class="example-icon" style="margin-right: 100px;" (click)="logout()" aria-label="Example icon-button with login icon">
         Welcome {{user.userName |titlecase}} | <mat-icon>logout</mat-icon>
       </button>

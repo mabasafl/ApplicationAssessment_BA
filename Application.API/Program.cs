@@ -41,11 +41,13 @@ builder.Services.AddScoped<IDirectoryService<Customer, CustomersDto>, DirectoryS
 builder.Services.AddScoped<IDirectoryService<BusinessArea, BusinessAreaDto>, DirectoryService<BusinessArea, BusinessAreaDto>>();
 builder.Services.AddScoped<IDirectoryService<BusinessAreaType, BusinessAreaTypeDto>, DirectoryService<BusinessAreaType, BusinessAreaTypeDto>>();
 builder.Services.AddScoped<IDirectoryService<Person, PersonDto>, DirectoryService<Person, PersonDto>>();
+builder.Services.AddScoped<IDirectoryService<ApplicationCustomer, ApplicationCustomerDto>, DirectoryService<ApplicationCustomer, ApplicationCustomerDto>>();
 
 builder.Services.AddScoped(typeof(IValidationHelper<>), typeof(ValidationHelper<>));
 builder.Services.AddScoped<INewInstanceHelper, NewInstanceHelper>();
 builder.Services.AddScoped<IBusinessAreaFilteringService, BusinessAreaFilteringService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IApplicationCustomerService, ApplicationCustomerService>();
 
 builder.Services.AddDbContext<DataContext>(options =>
 {

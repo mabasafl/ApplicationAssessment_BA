@@ -1,7 +1,10 @@
-<p *ngIf="!isLoggedIn;else businessAreaFiltering">
-  landing-page works!
-</p>
 
-<ng-template #businessAreaFiltering>
-  <app-business-area-filtering></app-business-area-filtering>
-</ng-template>
+<span>
+  <p *ngIf="!isLoggedIn;else businessAreaFiltering">
+    landing-page works!
+  </p>
+  
+  <ng-template #businessAreaFiltering>
+    <app-customers></app-customers>
+  </ng-template>
+</span>

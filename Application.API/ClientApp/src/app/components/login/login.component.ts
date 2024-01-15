@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Application } from 'src/app/models/application';
+import { ApplicationCustomers} from 'src/app/models/application-customer';
 import { User } from 'src/app/models/user';
+import { ApplicationService } from 'src/app/services/application.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -11,7 +14,18 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authService: AuthService, private formBuilder: FormBuilder, private router: Router) { }
+  hel!: string |null;
+  friendlyUrl!: string;
+  application!: Application;
+  isUrlValid: boolean = false;
+  url!: string[];
+  
+  constructor(private authService: AuthService, private formBuilder: FormBuilder, private router: Router, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute) { 
+    this.friendlyUrl = this.router.url.slice(1);
+    
+    this.url = this.router.url.split('/');
+    this.friendlyUrl = this.url[1];
+  }
 
   loginForm = this.formBuilder.group({
     userName: [''],
@@ -19,6 +33,20 @@ export class LoginComponent implements OnInit {
   });
 
   ngOnInit() {
+    this.applicationService.getApplicationByName(this.activatedRoute.snapshot.paramMap.get('friendlyUrl') ?? '').subscribe((result) => {
+      this.application = result;
+      if(this.friendlyUrl == null || this.friendlyUrl == undefined || this.application.name == null || this.application.name != this.friendlyUrl){
+        this.isUrlValid = false;
+        this.router.navigateByUrl('/404');        
+      }else if(this.friendlyUrl == this.application.name){
+        this.isUrlValid = true;
+      }
+    })
+
+    if(window.location.href.includes('app')){
+      sessionStorage.removeItem('url');
+      sessionStorage.setItem('url',this.url[4])
+    }
   }
 
   onLogin() {
@@ -26,7 +54,7 @@ export class LoginComponent implements OnInit {
       next: () => 
       {
         alert("you have signed in successfully");
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl(`${this.friendlyUrl}/app`);
       },
       error: () => alert("you were not signed in")
     })
