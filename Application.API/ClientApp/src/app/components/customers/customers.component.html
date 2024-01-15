@@ -1,0 +1,26 @@
+
+
+
+
+
+<form [formGroup]="form">
+  <!--<span class="business-filters">-->
+
+    <mat-form-field appearance="fill">
+      <mat-label>Select a tenant</mat-label>
+      <mat-select formControlName="customers" placeholder="Select a tenant">
+        <mat-option *ngFor="let customer of applications" [value]="customer.customerId">
+          {{ customer.customerName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+<!--</span>-->
+
+</form>
+
+<span *ngIf="currentCustomerId != 0">
+  <app-business-area-filtering [customerInput]="currentCustomerId"></app-business-area-filtering>
+</span>
+
+

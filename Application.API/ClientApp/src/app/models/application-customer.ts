@@ -1,13 +1,11 @@
-export interface BusinessAreaFiltering{
-    id: number;
+export interface ApplicationCustomers{
+    applicationId: number;
     customerId: number;
-    customerName: string;
     businessAreaId: number;
-    filteredBusinessAreaId: number;
-    isActive: boolean;
+    customerName: string;
+    friendlyUrl: string;
     dateCreated: Date;
     createdBy: string;
     dateModified: Date;
     modifiedBy: string;
-    
 }

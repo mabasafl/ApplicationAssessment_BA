@@ -8,7 +8,7 @@ table {
   }
   
   td, th {
-    width: 25%;
+    width: 16%;
   }
 
   .tbl-container{
@@ -18,7 +18,8 @@ table {
 
   .business-filters{
     display: flex;
-    justify-content: space-around;
+    //justify-content: space-around;
+    justify-content: space-between;
     margin-top: 5px;
     margin-bottom: 20px;
   }
@@ -28,7 +29,23 @@ table {
   }
 
   mat-form-field{
-    width:300px;
+    width:400px;
     text-align:center;
+    //padding-right: 100px;
+  }
+
+  form{
+    padding-left: 7%;
+    padding-right: 7%;
+  }
+
+  .no-data{
+    display: flex;
+    justify-content: center;
+  }
+
+  p{
+    margin-top: 50px;
+    font-size: larger;
   }
   

@@ -10,6 +10,7 @@ using Application.DataTransfer.Dtos.Core;
 using Application.Data.Models.Core;
 using AutoMapper;
 using Application.Core.Interfaces;
+using System.Linq.Expressions;
 
 namespace Application.Core.Services
 {
@@ -122,6 +123,26 @@ namespace Application.Core.Services
             }
 
 
+        }
+
+        public async Task<Dto> GetDirectoryByNameAsync(Expression<Func<Entity, bool>> predicate)
+        {
+            Dto directoryData = _instanceHelper.CreateInstance<Dto>();
+            
+            try
+            {
+                Entity result = await _repository.GetByNameAsync(predicate);
+
+                if (result == null) return directoryData;
+
+                directoryData = _mapper.Map<Entity, Dto>(result);
+
+                return directoryData;
+            }
+            catch (Exception e)
+            {
+                return directoryData;
+            }
         }
 
         public async Task<ResponseDto> UpdateDirectoryAsync(Entity directoryData)

@@ -25,6 +25,8 @@ import { FooterComponent } from './components/nav/footer/footer.component';
 import { MatPaginatorModule} from '@angular/material/paginator';
 import { MatSortModule} from '@angular/material/sort';
 import { MatTableModule} from '@angular/material/table';
+import { CustomersComponent } from './components/customers/customers.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import { MatTableModule} from '@angular/material/table';
     HomeComponent,
     BusinessAreaFilteringComponent,
     FooterComponent,
+    CustomersComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

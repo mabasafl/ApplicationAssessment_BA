@@ -3,13 +3,13 @@
   <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
 </mat-form-field>-->
 
-  <form [formGroup]="form">
+  <!--<form [formGroup]="form">
     <span class="business-filters">
   
     
     <mat-form-field appearance="fill">
       <mat-label>Business Area Type 1</mat-label>
-      <mat-select formControlName="category" placeholder="Select a business area type 1">
+      <mat-select formControlName="location" placeholder="Select a business area type 1">
         <mat-option *ngFor="let category of categories" [value]="category.id">
           {{ category.name }}
         </mat-option>
@@ -18,7 +18,7 @@
   
     <mat-form-field appearance="fill">
       <mat-label>Business Area Type 2</mat-label>
-      <mat-select formControlName="subcategory" placeholder="Select a business area type 2">
+      <mat-select formControlName="department" placeholder="Select a business area type 2">
         <mat-option *ngFor="let subcategory of subcategories" [value]="subcategory.filteredBusinessAreaId">
           {{ subcategory.filteredBusinessAreaId }}
         </mat-option>
@@ -27,7 +27,7 @@
   
     <mat-form-field appearance="fill">
       <mat-label>Business Area Type 3</mat-label>
-      <mat-select formControlName="subcategory" placeholder="Select a business area type 3">
+      <mat-select formControlName="industry" placeholder="Select a business area type 3">
         <mat-option *ngFor="let subcategory of subcategories" [value]="subcategory.filteredBusinessAreaId">
           {{ subcategory.filteredBusinessAreaId }}
         </mat-option>
@@ -65,11 +65,95 @@
         <td mat-cell *matCellDef="let row"> {{ row.dateCreated | date}} </td>
       </ng-container>
   
-      <!-- Add more columns as needed -->
+      <!- Add more columns as needed ->
   
       <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: tableColumns"></tr>
     </table>
   
     <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+  </div>-->
+
+
+
+
+
+  <form [formGroup]="form">
+    <span class="business-filters">
+  
+    
+    <mat-form-field appearance="fill">
+      <mat-label>Business Area Type 1</mat-label>
+      <mat-select formControlName="location" placeholder="Select a business area type 1">
+        <mat-option *ngFor="let category of categories" [value]="category.businessAreaId">
+          {{ category.businessAreaId }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Business Area Type 2</mat-label>
+      <mat-select formControlName="department" placeholder="Select a business area type 2">
+        <mat-option *ngFor="let subcategory of subcategories" [value]="subcategory.businessAreaId">
+          {{ subcategory.businessAreaId }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Business Area Type 3</mat-label>
+      <mat-select formControlName="industry" placeholder="Select a business area type 3">
+        <mat-option *ngFor="let industry of industries" [value]="industry.businessAreaId">
+          {{ industry.businessAreaId }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </span>
+  
+  </form>
+  
+  <div class="tbl-container" *ngIf="dataSource">
+    <table mat-table [dataSource]="dataSource" matSort>
+  
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+        <td mat-cell *matCellDef="let row"> {{ row.firstName }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+        <td mat-cell *matCellDef="let row"> {{ row.lastName }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="emailAddress">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Email Address </th>
+        <td mat-cell *matCellDef="let row"> {{ row.emailAddress }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="contactNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Mobile No. </th>
+        <td mat-cell *matCellDef="let row"> {{ row.mobileNumber }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="dateCreated">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Added </th>
+        <td mat-cell *matCellDef="let row"> {{ row.dateCreated | date}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="createdBy">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Added By </th>
+        <td mat-cell *matCellDef="let row"> {{ row.createdBy}} </td>
+      </ng-container>
+  
+      <!-- Add more columns as needed -->
+  
+      <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: tableColumns"></tr>
+    </table>
+
+    <span *ngIf="dataSource.filteredData.length < 1" class="no-data">
+      <p>No data available matching the filters applied</p>
+    </span>
+  
+    <mat-paginator *ngIf="dataSource.filteredData.length > 0" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
   </div>
