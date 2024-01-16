@@ -8,7 +8,6 @@ namespace Application.DataTransfer.Dtos.Core
 {
     public class BusinessAreaTypeDto : BaseDto
     {
-        public string Id { get; set; }
         public string Name { get; set; } = null!;
     }
 }

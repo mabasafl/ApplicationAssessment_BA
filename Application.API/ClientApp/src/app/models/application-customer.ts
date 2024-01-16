@@ -1,5 +1,6 @@
 export interface ApplicationCustomers{
     applicationId: number;
+    applicationName: string;
     customerId: number;
     businessAreaId: number;
     customerName: string;
