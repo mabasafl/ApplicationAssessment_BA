@@ -1,0 +1,65 @@
+<div class="container">
+<div mat-dialog-title>
+  <h1>{{data ? 'Edit': 'Add'}} Person</h1>
+</div>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div mat-dialog-content class="content">
+      <div class="row">
+          <mat-form-field appearance="outline">
+              <mat-label>First name:</mat-label>
+              <input matInput type="text" placeholder="i.e David" formControlName="firstName">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+              <mat-label>Last Name:</mat-label>
+              <input matInput placeholder="i.e Smith" formControlName="lastName">
+          </mat-form-field>
+      </div>
+      <div class="row">
+          <mat-form-field appearance="outline">
+              <mat-label>Email:</mat-label>
+              <input matInput type="email" placeholder="i.e david@gmail.com" formControlName="emailAddress">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+              <mat-label>Mobile No:</mat-label>
+              <input matInput type="string" placeholder="i.e 0785003333" formControlName="contactNumber">
+          </mat-form-field>
+      </div>
+      <div class="row">
+          <mat-form-field appearance="outline">
+              <mat-label>Customer:</mat-label>
+              <mat-select formControlName="customerId">
+                  <mat-option *ngFor="let customer of customers" [value]="customer.id">{{customer.name}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+              <mat-label>Business Area 1 (Location):</mat-label>
+              <mat-select formControlName="buisnessArea1">
+                  <mat-option *ngFor="let businessArea of location" [value]="businessArea.id">{{businessArea.name}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>Business Area 2 (Department):</mat-label>
+          <mat-select formControlName="buisnessArea1">
+              <mat-option *ngFor="let businessArea of department" [value]="businessArea.id">{{businessArea.name}}
+              </mat-option>
+          </mat-select>
+      </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Business Area 3 (Industry):</mat-label>
+          <mat-select formControlName="buisnessArea1">
+              <mat-option *ngFor="let businessArea of industry" [value]="businessArea.id">{{businessArea.name}}
+              </mat-option>
+          </mat-select>
+      </mat-form-field>
+      </div>
+  </div>
+  <div mat-dialog-actions class="action-btns">
+      <button style="margin: 10px;" mat-raised-button type="submit">{{data ? 'Update': 'Save'}}</button>
+      <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
+  </div>
+</form>
+</div>

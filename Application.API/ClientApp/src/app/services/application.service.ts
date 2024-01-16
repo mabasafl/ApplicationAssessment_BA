@@ -24,4 +24,6 @@ constructor(private http: HttpClient) {
   return this.http.get<Application>(`${this.baseUrl}/Application/getByName?name=${friendlyurl}`);
  }
 
+ 
+
 }

@@ -1,4 +1,5 @@
 export interface BusinessArea{
+    id: number;
     name: string;
     businessAreaTypeId: number;
     customerId: number;

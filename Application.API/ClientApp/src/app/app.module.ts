@@ -27,6 +27,18 @@ import { MatSortModule} from '@angular/material/sort';
 import { MatTableModule} from '@angular/material/table';
 import { CustomersComponent } from './components/customers/customers.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatListModule} from '@angular/material/list';
+import { PersonComponent } from './components/crud/person/person.component';
+import { MatDialogModule} from '@angular/material/dialog';
+import { PersonFormComponent } from './components/crud/person/person-form/person-form.component';
+import { CustomerComponent } from './components/crud/customer/customer.component';
+import { CustomerFormComponent } from './components/crud/customer/customer-form/customer-form.component';
+import { ApplicationComponent } from './components/crud/application/application.component';
+import { ApplicationFormComponent } from './components/crud/application/application-form/application-form.component';
+import { BusinessAreaComponent } from './components/crud/business-area/business-area.component';
+import { BusinessAreaFormComponent } from './components/crud/business-area/business-area-form/business-area-form.component';
+import { ApplicationCustomerComponent } from './components/crud/application-customer/application-customer.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +50,18 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     BusinessAreaFilteringComponent,
     FooterComponent,
     CustomersComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    PersonComponent,
+    PersonFormComponent,
+    CustomerComponent,
+    CustomerFormComponent,
+    ApplicationComponent,
+    ApplicationFormComponent,
+    BusinessAreaComponent,
+    BusinessAreaFormComponent,
+    ApplicationCustomerComponent,
+    ApplicationFormComponent
+
   ],
   imports: [
     BrowserModule,
@@ -60,7 +83,38 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     MatToolbarModule,
     MatPaginatorModule,
     MatSortModule,
-    MatTableModule
+    MatTableModule,
+    MatDividerModule,
+    MatListModule,
+    MatDialogModule,
+    FormsModule,
+    MatFormFieldModule,
+
+
+
+
+   /* BrowserAnimationsModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatRadioModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,*/
+
+
+
+
+
+
   ],
   providers: [],
   bootstrap: [AppComponent]

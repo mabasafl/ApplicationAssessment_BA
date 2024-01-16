@@ -1,5 +1,6 @@
 ﻿using Application.Core.Interfaces;
 using Application.Core.Services;
+using Application.Data.Models.Core;
 using Application.DataTransfer.Dtos.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,10 +9,10 @@ namespace Application.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ApplicationCustomersController : ControllerBase
+    public class ApplicationCustomersController : DirectoryController<ApplicationCustomer, ApplicationCustomerDto>
     {
         private readonly IApplicationCustomerService _applicationCustomersService;
-        public ApplicationCustomersController(IApplicationCustomerService applicationCustomersService)
+        public ApplicationCustomersController(IDirectoryService<ApplicationCustomer, ApplicationCustomerDto> applicationCustomerDirectory,IApplicationCustomerService applicationCustomersService) : base(applicationCustomerDirectory)
         {
             _applicationCustomersService = applicationCustomersService;
         }
