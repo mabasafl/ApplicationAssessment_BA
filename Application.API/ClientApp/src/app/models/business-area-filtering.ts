@@ -3,6 +3,7 @@ export interface BusinessAreaFiltering{
     customerId: number;
     customerName: string;
     businessAreaId: number;
+    businessAreaName: string;
     filteredBusinessAreaId: number;
     isActive: boolean;
     dateCreated: Date;

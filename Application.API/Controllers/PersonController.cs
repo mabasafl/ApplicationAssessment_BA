@@ -9,7 +9,7 @@ namespace Application.API.Controllers
 {
     public class PersonController : DirectoryController<Person, PersonDto>
     {
-        public PersonController(IDirectoryService<Person, PersonDto> directoryService): base(directoryService)
+        public PersonController(IDirectoryService<Person, PersonDto> directoryService, IValidationHelper<Person> validationHelper) : base(directoryService,validationHelper)
         {
             
         }

@@ -1,4 +1,5 @@
-﻿using Application.Core.Interfaces;
+﻿using Application.Core.Helpers.Interfaces;
+using Application.Core.Interfaces;
 using Application.Core.Services;
 using Application.Data.Models.Core;
 using Application.DataTransfer.Dtos.Core;
@@ -12,7 +13,7 @@ namespace Application.API.Controllers
     public class ApplicationCustomersController : DirectoryController<ApplicationCustomer, ApplicationCustomerDto>
     {
         private readonly IApplicationCustomerService _applicationCustomersService;
-        public ApplicationCustomersController(IDirectoryService<ApplicationCustomer, ApplicationCustomerDto> applicationCustomerDirectory,IApplicationCustomerService applicationCustomersService) : base(applicationCustomerDirectory)
+        public ApplicationCustomersController(IDirectoryService<ApplicationCustomer, ApplicationCustomerDto> applicationCustomerDirectory,IApplicationCustomerService applicationCustomersService, IValidationHelper<ApplicationCustomer> validationHelper) : base(applicationCustomerDirectory, validationHelper)
         {
             _applicationCustomersService = applicationCustomersService;
         }

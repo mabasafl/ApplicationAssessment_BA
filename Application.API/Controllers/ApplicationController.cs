@@ -4,6 +4,7 @@ using Application.Data.Models.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Application.Core.Interfaces;
+using Application.Core.Helpers.Interfaces;
 
 namespace Application.API.Controllers
 {
@@ -11,8 +12,8 @@ namespace Application.API.Controllers
     {
         private IDirectoryService<Applications, ApplicationsDto> _directoryService;
 
-        public ApplicationController(IDirectoryService<Applications, ApplicationsDto> directoryService) : base(
-            directoryService)
+        public ApplicationController(IDirectoryService<Applications, ApplicationsDto> directoryService, IValidationHelper<Applications> validationHelper) : base(
+            directoryService, validationHelper)
         {
             _directoryService = directoryService;
 

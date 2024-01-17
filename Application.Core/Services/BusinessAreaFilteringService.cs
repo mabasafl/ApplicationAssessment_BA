@@ -12,6 +12,7 @@ using Application.DataTransfer.Dtos.Core;
 using Application.Data.Models.Core;
 using AutoMapper;
 using AutoMapper.QueryableExtensions.Impl;
+using Application.Core.Helpers;
 
 namespace Application.Core.Services
 {
@@ -24,19 +25,67 @@ namespace Application.Core.Services
         private readonly IDirectoryService<ApplicationCustomer, ApplicationCustomerDto> _applicationCustomerService;
         private readonly IDirectoryService<BusinessArea, BusinessAreaDto> _businessAreaService;
         private readonly INewInstanceHelper _instanceHelper;
+        private readonly IResponseMessageHelper _responseMessageHelper;
+        private readonly IValidationHelper<Customer> _customerValidationHelper;
         public BusinessAreaFilteringService(IBaseRepository<BusinessAreaRelationship> repository, IMapper mapper,
-            INewInstanceHelper instanceHelper, IBaseRepository<Customer> customerRepository, IBaseRepository<BusinessArea> businessAreaRepository, IDirectoryService<Person, PersonDto> personService, IDirectoryService<ApplicationCustomer, ApplicationCustomerDto> applicationCustomerService)
+            INewInstanceHelper instanceHelper, IBaseRepository<Customer> customerRepository, IBaseRepository<BusinessArea> businessAreaRepository, IDirectoryService<Person, PersonDto> personService, IDirectoryService<ApplicationCustomer, ApplicationCustomerDto> applicationCustomerService, IValidationHelper<Customer> customerValidationHelper)
         {
             _repository = repository;
             _mapper = mapper;
             _instanceHelper = instanceHelper;
             _personService = personService;
             _applicationCustomerService = applicationCustomerService;
-            _customerService = new DirectoryService<Customer, CustomersDto>(customerRepository, _mapper, _instanceHelper);
+            _responseMessageHelper = new ResponseMessageHelper();
+            _customerValidationHelper = customerValidationHelper;
+            _customerService = new DirectoryService<Customer, CustomersDto>(customerRepository, _mapper, _instanceHelper, null);
             _businessAreaService =
-        new DirectoryService<BusinessArea, BusinessAreaDto>(businessAreaRepository, _mapper, _instanceHelper);
+        new DirectoryService<BusinessArea, BusinessAreaDto>(businessAreaRepository, _mapper, _instanceHelper, null);
 
         }
+
+        public async Task<ResponseDto> AddBusinessAreaRelationshipAsync(BusinessAreaRelationshipDto data)
+        {
+            ResponseDto response = new ResponseDto();
+
+            try
+            {
+                 BusinessAreaRelationship businessAreaRelationshipEntity = _mapper.Map<BusinessAreaRelationshipDto, BusinessAreaRelationship>(data);
+
+                 var exist = await _repository.GetAllAsync();
+                 exist = exist.Where(x => x.CustomerId == data.CustomerId &&
+                                          x.BusinessAreaId == data.BusinessAreaId &&
+                                          x.FilteredBusinessAreaId == data.FilteredBusinessAreaId).ToList();
+
+                 if (exist.Any())
+                     return response = await _responseMessageHelper.ResponseMessage(false,
+                         new List<string[]>
+                         {
+                             new[]
+                             {
+                                 "adding business area relationship was not successful",
+                                 "Relationship already exist for this customer"
+                             }
+                         });
+
+                bool result = await _repository.AddAsync(businessAreaRelationshipEntity);
+
+                if (!result)
+                {
+                    response = await _responseMessageHelper.ResponseMessage(result,
+                        new List<string[]> { new[] { "adding business area relationship was not successful", "Please try again later" } });
+                }
+
+                response = await _responseMessageHelper.ResponseMessage(result,
+                    new List<string[]> { new[] { "adding business area relationship was successful", "Thank You" } });
+
+                return response;
+            }
+            catch (Exception e)
+            {
+                return response;
+            }
+        }
+
         public async Task<List<BusinessAreaRelationshipDto>> GetAllBusinessAreaRelationshipsAsync(int businessAreaId, int customerId)
         {
             try
@@ -51,7 +100,8 @@ namespace Application.Core.Services
                     IEnumerable<BusinessAreaRelationshipDto> filteredBusinessArea = businessRelationship.Where(x => x.BusinessAreaId == businessAreaId && x.IsActive == true && x.CustomerId == customerId);
                     foreach (BusinessAreaRelationshipDto relationship in filteredBusinessArea)
                     {
-                        CustomersDto customer = await _customerService.GetDirectoryAsync(relationship.CustomerId);
+                        CustomersDto customer = new CustomersDto();
+                        customer = await _customerService.GetDirectoryAsync(relationship.CustomerId);
                         relationship.CustomerName = customer.Name;
 
                         BusinessAreaDto businessArea = await _businessAreaService.GetDirectoryAsync(businessAreaId);
@@ -95,6 +145,9 @@ namespace Application.Core.Services
 
                     BusinessAreaDto businessArea = await _businessAreaService.GetDirectoryAsync(relationship.BusinessAreaId.Value);
                     relationship.BusinessAreaName = businessArea.Name;
+
+                    BusinessAreaDto filteredBusinessArea = await _businessAreaService.GetDirectoryAsync(relationship.FilteredBusinessAreaId.Value);
+                    relationship.FilteredBusinessAreaName = filteredBusinessArea.Name;
 
                     relationship.customer = customer;
 

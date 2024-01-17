@@ -19,6 +19,10 @@ export class BusinessAreaService {
     return this.http.get<BusinessArea[]>(`${this.baseUrl}/getAll`);
   }
 
+  getBusinessArea(businessAreaId: number): Observable<BusinessArea>{
+    return this.http.get<BusinessArea>(`${this.baseUrl}/get?id=${businessAreaId}`);
+  }
+
   addBusinessArea(businessArea: BusinessArea): Observable<ResponseMessage>{
     return this.http.post<ResponseMessage>(`${this.baseUrl}/post`,businessArea)
   }

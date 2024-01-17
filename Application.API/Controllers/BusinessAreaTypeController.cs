@@ -10,7 +10,7 @@ namespace Application.API.Controllers
     public class BusinessAreaTypeController : DirectoryController<BusinessAreaType, BusinessAreaTypeDto>
     {
 
-        public BusinessAreaTypeController(IDirectoryService<BusinessAreaType, BusinessAreaTypeDto> directoryService) : base(directoryService)
+        public BusinessAreaTypeController(IDirectoryService<BusinessAreaType, BusinessAreaTypeDto> directoryService, IValidationHelper<BusinessAreaType> validationHelper) : base(directoryService, validationHelper)
         {
             
         }
