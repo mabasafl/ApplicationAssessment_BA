@@ -1,4 +1,5 @@
 ﻿using Application.Core.Interfaces;
+using Application.Core.Services;
 using Application.Data.Models.Core;
 using Application.DataTransfer.Dtos.Core;
 using Microsoft.AspNetCore.Http;
@@ -43,6 +44,13 @@ namespace Application.API.Controllers
         {
             List<BusinessAreaRelationshipDto> response =
                 await _businessAreaFiltering.GetDropDownAsync(businessArea1, businessArea2, customerId, applicationId);
+            return Ok(response);
+        }
+
+        [HttpPost("post")]
+        public async Task<IActionResult> PostAsync(BusinessAreaRelationshipDto data)
+        {
+            ResponseDto response = await _businessAreaFiltering.AddBusinessAreaRelationshipAsync(data);
             return Ok(response);
         }
     }

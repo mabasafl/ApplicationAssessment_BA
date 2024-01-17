@@ -10,6 +10,7 @@ import { CustomerComponent } from './components/crud/customer/customer.component
 import { ApplicationComponent } from './components/crud/application/application.component';
 import { BusinessAreaComponent } from './components/crud/business-area/business-area.component';
 import { ApplicationCustomerComponent } from './components/crud/application-customer/application-customer.component';
+import { BusinessAreaRelatioshipComponent } from './components/crud/business-area-relatioship/business-area-relatioship.component';
 
 const routes: Routes = [
   //{path:'url/:friendlyUrl', component: LandingPageComponent},
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path: 'crud/application', component: ApplicationComponent},
   {path: 'crud/business-area', component: BusinessAreaComponent},
   {path: 'crud/application-customer', component: ApplicationCustomerComponent},
+  {path: 'crud/business-area-relationship', component: BusinessAreaRelatioshipComponent},
   {path: '**', redirectTo:'/404'},
   
 ];

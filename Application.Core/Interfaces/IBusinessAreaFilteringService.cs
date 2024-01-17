@@ -14,5 +14,6 @@ namespace Application.Core.Interfaces
         Task<List<BusinessAreaRelationshipDto>> GetAllDataBusinessAreaRelationshipsAsync();
         Task<List<PersonDto>> GetCascadeFiltering(int businessArea1, int businessArea2, int businessArea3, int customerId, int applicationId);
         Task<List<BusinessAreaRelationshipDto>> GetDropDownAsync(int businessArea1, int businessArea2, int customerId, int applicationId);
+        Task<ResponseDto> AddBusinessAreaRelationshipAsync(BusinessAreaRelationshipDto data);
     }
 }

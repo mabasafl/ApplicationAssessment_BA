@@ -1,4 +1,6 @@
 ﻿using System.Linq.Expressions;
+using Application.Core.Helpers;
+using Application.Core.Helpers.Interfaces;
 using Application.Core.Interfaces;
 using Application.DataTransfer.Dtos.Core;
 using Microsoft.AspNetCore.Http;
@@ -11,10 +13,14 @@ namespace Application.API.Controllers
     public class DirectoryController<Entity,Dto> : ControllerBase where Entity : class
     {
         private readonly IDirectoryService<Entity,Dto> _directoryService;
+        private readonly IValidationHelper<Entity> _validationHelper;
+        private readonly INewInstanceHelper _instanceHelper;
 
-        public DirectoryController(IDirectoryService<Entity,Dto> directoryService)
+        public DirectoryController(IDirectoryService<Entity,Dto> directoryService, IValidationHelper<Entity> validationHelper)
         {
             _directoryService = directoryService;
+            _validationHelper = validationHelper;
+            _instanceHelper = new NewInstanceHelper();
         }
 
         [HttpGet("getAll")]
@@ -35,6 +41,7 @@ namespace Application.API.Controllers
         public async Task<IActionResult> PostAsync(Dto entity)
         {
             ResponseDto response = await _directoryService.AddDirectoryAsync(entity);
+            if (!response.Success) return BadRequest(response);
             return Ok(response);
         }
 

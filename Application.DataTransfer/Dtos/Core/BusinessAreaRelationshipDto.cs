@@ -15,6 +15,7 @@ namespace Application.DataTransfer.Dtos.Core
         public bool? IsActive { get; set; }
         public string CustomerName { get; set; }
         public string BusinessAreaName { get; set;}
+        public string FilteredBusinessAreaName { get; set; }
         public CustomersDto customer { get; set; }
 
     }
