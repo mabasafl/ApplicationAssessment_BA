@@ -11,19 +11,20 @@ import { ApplicationComponent } from './components/crud/application/application.
 import { BusinessAreaComponent } from './components/crud/business-area/business-area.component';
 import { ApplicationCustomerComponent } from './components/crud/application-customer/application-customer.component';
 import { BusinessAreaRelatioshipComponent } from './components/crud/business-area-relatioship/business-area-relatioship.component';
+import { AuthGuard } from './gaurds/auth.guard';
 
 const routes: Routes = [
-  //{path:'url/:friendlyUrl', component: LandingPageComponent},
-  {path:':friendlyUrl/login', component:LoginComponent},
-  {path: ':friendlyUrl/app', component: CustomersComponent},
+  {path:'', component: LandingPageComponent},
+  {path:':friendlyUrl/login', component:LoginComponent, pathMatch:'full'},
+  {path: ':friendlyUrl/app', component: CustomersComponent, canActivate: [AuthGuard]},
   { path: '404',component: PageNotFoundComponent},
-  {path: 'crud', component: HomeComponent},
-  {path: 'crud/person', component: PersonComponent},
-  {path: 'crud/customer', component: CustomerComponent},
-  {path: 'crud/application', component: ApplicationComponent},
-  {path: 'crud/business-area', component: BusinessAreaComponent},
-  {path: 'crud/application-customer', component: ApplicationCustomerComponent},
-  {path: 'crud/business-area-relationship', component: BusinessAreaRelatioshipComponent},
+    {path: ':friendlyUrl/crud', component: HomeComponent, canActivate: [AuthGuard]},
+    {path: ':friendlyUrl/crud/person', component: PersonComponent, canActivate: [AuthGuard]},
+    {path: ':friendlyUrl/crud/customer', component: CustomerComponent, canActivate: [AuthGuard]},
+    {path: ':friendlyUrl/crud/application', component: ApplicationComponent, canActivate: [AuthGuard]},
+    {path: ':friendlyUrl/crud/business-area', component: BusinessAreaComponent, canActivate: [AuthGuard]},
+    {path: ':friendlyUrl/crud/application-customer', component: ApplicationCustomerComponent, canActivate: [AuthGuard]},
+    {path: ':friendlyUrl/crud/business-area-relationship', component: BusinessAreaRelatioshipComponent, canActivate: [AuthGuard]},
   {path: '**', redirectTo:'/404'},
   
 ];
