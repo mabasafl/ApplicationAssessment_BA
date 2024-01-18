@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Customer } from 'src/app/models/customer';
 import { ResponseMessage } from 'src/app/models/response';
+import { User } from 'src/app/models/user';
 import { CustomerService } from 'src/app/services/crud/customer.service';
 
 @Component({
@@ -17,16 +18,21 @@ export class CustomerFormComponent implements OnInit {
   form!: FormGroup;
   customers: Customer[] = [];
   responseMessage: ResponseMessage | null = null;
+  userLogged!: User;
 
   constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<CustomerFormComponent>,
      @Inject(MAT_DIALOG_DATA) public data: Customer, 
      private customerService: CustomerService) {
+      var user = sessionStorage.getItem('user');
+      if(user != null){
+        this.userLogged = JSON.parse(user)
+      }
       }
 
   ngOnInit() {
     this.form = this.fb.group({
       name: new FormControl(''),
-      createdBy: new FormControl(''),
+      createdBy: new FormControl(this.userLogged.userName),
       dateCreated: new FormControl(new Date()),
       dateModified: new FormControl(new Date()),
       modifiedBy:new FormControl('')

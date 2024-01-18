@@ -41,6 +41,7 @@ import { BusinessAreaFormComponent } from './components/crud/business-area/busin
 import { ApplicationCustomerComponent } from './components/crud/application-customer/application-customer.component';
 import { BusinessAreaRelatioshipComponent } from './components/crud/business-area-relatioship/business-area-relatioship.component';
 import { BusinessAreaRelationshipFormComponent } from './components/crud/business-area-relatioship/business-area-relationship-form/business-area-relationship-form.component';
+import { ApplicationCustomerFormComponent } from './components/crud/application-customer/application-customer-form/application-customer-form.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { BusinessAreaRelationshipFormComponent } from './components/crud/busines
     BusinessAreaComponent,
     BusinessAreaFormComponent,
     ApplicationCustomerComponent,
+    ApplicationCustomerFormComponent,
     ApplicationFormComponent,
     BusinessAreaRelatioshipComponent,
     BusinessAreaRelationshipFormComponent

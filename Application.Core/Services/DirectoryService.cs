@@ -16,6 +16,7 @@ namespace Application.Core.Services
         private readonly IMapper _mapper;
         private readonly INewInstanceHelper _instanceHelper;
         private readonly IValidationHelper<Entity> _validationHelper;
+        private readonly IPropertyFinderHelper<Entity> _propertyFinderHelper;
 
         public DirectoryService(IBaseRepository<Entity> repository, IMapper mapper, INewInstanceHelper instanceHelper, IValidationHelper<Entity> validationHelper)
         {
@@ -24,6 +25,7 @@ namespace Application.Core.Services
             _mapper = mapper;
             _instanceHelper = instanceHelper;
             _validationHelper = validationHelper;
+            _propertyFinderHelper = new PropertyFinderHelper<Entity>();
         }
         public async Task<ResponseDto> AddDirectoryAsync(Dto directoryData)
         {
@@ -33,40 +35,19 @@ namespace Application.Core.Services
             {
                 Entity directoryEntity = _mapper.Map<Dto, Entity>(directoryData);
 
-                
-                Type dtoType = directoryData.GetType();
-                string name = "Name";
-                bool nameExists = dtoType.GetProperties().Any(property => property.Name == name);
-
-                string emailAddress = "EmailAddress";
-                bool emailAddressExists = dtoType.GetProperties().Any(property => property.Name == emailAddress);
-                
-                if (nameExists)
+                PropertyInfo namePropertyInfo = _propertyFinderHelper.FindProperty<Entity>("Name");
+                if (namePropertyInfo != null)
                 {
-                    PropertyInfo propertyInfo = dtoType.GetProperty(name);
-                    string nameValue = propertyInfo.GetValue(directoryData).ToString();
-                    ResponseDto nameValidation = await _validationHelper.Unique(nameValue);
-                    if (nameValidation.Message.Any())
-                    {
-                        return nameValidation;
-                    }
-
-                    nameValidation.Success = true;
+                    ResponseDto nameValidation = await _validationHelper.Unique(namePropertyInfo?.GetValue(directoryEntity).ToString(), Constants.Constants.Unique_Regex, Constants.Constants._Name);
+                    if (nameValidation.Message.Any()) return nameValidation;
                 }
 
-                if (emailAddressExists)
+                PropertyInfo emailPropertyInfo = _propertyFinderHelper.FindProperty<Entity>("EmailAddress");
+                if (emailPropertyInfo != null)
                 {
-                    PropertyInfo propertyInfo = dtoType.GetProperty(emailAddress);
-                    string emailAddressValue = propertyInfo.GetValue(directoryData).ToString();
-                    ResponseDto emailAddressValidation = await _validationHelper.Unique(emailAddressValue);
-                    if (emailAddressValidation.Message.Any())
-                    {
-                        return emailAddressValidation;
-                    }
-
-                    emailAddressValidation.Success = true;
+                    ResponseDto emailValidation = await _validationHelper.Unique(emailPropertyInfo?.GetValue(directoryEntity).ToString(), Constants.Constants.Email_Regex, Constants.Constants._EmailAddress);
+                    if (emailValidation.Message.Any()) return emailValidation;
                 }
-
 
                 bool result = await _repository.AddAsync(directoryEntity);
 

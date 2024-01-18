@@ -4,7 +4,7 @@
       <mat-label>Business Area Type 1</mat-label>
       <mat-select formControlName="location" placeholder="Select a business area type 1">
         <mat-option *ngFor="let category of categories" [value]="category.businessAreaId">
-          {{ category.businessAreaId }}
+          {{ category.businessAreaName }}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -12,8 +12,8 @@
     <mat-form-field appearance="fill">
       <mat-label>Business Area Type 2</mat-label>
       <mat-select formControlName="department" placeholder="Select a business area type 2">
-        <mat-option *ngFor="let subcategory of subcategories" [value]="subcategory.businessAreaId">
-          {{ subcategory.businessAreaId }}
+        <mat-option *ngFor="let subcategory of subcategories" [value]="subcategory.filteredBusinessAreaId">
+          {{ subcategory.filteredBusinessAreaName }}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -21,8 +21,8 @@
     <mat-form-field appearance="fill">
       <mat-label>Business Area Type 3</mat-label>
       <mat-select formControlName="industry" placeholder="Select a business area type 3">
-        <mat-option *ngFor="let industry of industries" [value]="industry.businessAreaId">
-          {{ industry.businessAreaId }}
+        <mat-option *ngFor="let industry of industries" [value]="industry.filteredBusinessAreaId">
+          {{ industry.filteredBusinessAreaName }}
         </mat-option>
       </mat-select>
     </mat-form-field>
