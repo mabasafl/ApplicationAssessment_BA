@@ -5,6 +5,7 @@ export interface BusinessAreaFiltering{
     businessAreaId: number;
     businessAreaName: string;
     filteredBusinessAreaId: number;
+    filteredBusinessAreaName: string;
     isActive: boolean;
     dateCreated: Date;
     createdBy: string;

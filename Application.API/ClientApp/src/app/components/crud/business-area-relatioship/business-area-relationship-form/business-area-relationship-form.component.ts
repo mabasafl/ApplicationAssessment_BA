@@ -5,6 +5,7 @@ import { BusinessArea } from 'src/app/models/business-area';
 import { BusinessAreaFiltering } from 'src/app/models/business-area-filtering';
 import { Customer } from 'src/app/models/customer';
 import { ResponseMessage } from 'src/app/models/response';
+import { User } from 'src/app/models/user';
 import { BusinessAreaRelationshipService } from 'src/app/services/crud/business-area-relationship.service';
 import { BusinessAreaService } from 'src/app/services/crud/business-area.service';
 import { CustomerService } from 'src/app/services/crud/customer.service';
@@ -25,12 +26,17 @@ export class BusinessAreaRelationshipFormComponent implements OnInit {
   businessAreas: BusinessArea[] = [];
   filteredBusinessAreas: BusinessArea[] = [];
   responseMessage: ResponseMessage | null = null;
+  userLogged!: User;
 
   constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<BusinessAreaRelationshipFormComponent>,
      @Inject(MAT_DIALOG_DATA) public data: BusinessAreaFiltering, 
      private businessAreaRelationshipService: BusinessAreaRelationshipService,
      private customerService:CustomerService,
      private businessAreaService: BusinessAreaService) {
+      var user = sessionStorage.getItem('user');
+      if(user != null){
+        this.userLogged = JSON.parse(user)
+      }
       }
 
   ngOnInit() {
@@ -39,12 +45,13 @@ export class BusinessAreaRelationshipFormComponent implements OnInit {
       businessAreaId: new FormControl(0),
       customerId: new FormControl(0),
       filteredBusinessAreaId: new FormControl(0),
-      createdBy: new FormControl(''),      
+      createdBy: new FormControl(this.userLogged.userName),      
       dateCreated: new FormControl(new Date()),
       dateModified: new FormControl(new Date()),
       modifiedBy:new FormControl(''),
       businessAreaName:new FormControl(''),
       filteredBusinessAreaName: new FormControl(''),
+      isActive: new FormControl(true),
       customerName: new FormControl(''),
       customer: this.fb.group({
         name: new FormControl(''),
@@ -74,19 +81,6 @@ export class BusinessAreaRelationshipFormComponent implements OnInit {
   }
 
   onSubmit(){
-
-    /*.existingBusinessAreaValue = this.form.get('businessAreaId')?.value;
-    this.existingFilteredBusinessAreaValue = this.form.get('filteredBusinessAreaId')?.value;
-    this.existingCustomerValue = this.form.get('customerId')?.value;
-
-    var exist = this.businessAreaRelationships.filter(x => x.businessAreaId == this.existingBusinessAreaValue && 
-      x.filteredBusinessAreaId == this.existingFilteredBusinessAreaValue &&
-      x.customerId == this.existingCustomerValue)
-
-    if(exist){
-      this.form.invalid;
-    }*/
-
     if(this.form.invalid){
       this.responseMessage = {success: false, message:" form is not valid", timeStamp: new Date()}
     }

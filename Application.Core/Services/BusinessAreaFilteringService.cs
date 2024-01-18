@@ -21,6 +21,7 @@ namespace Application.Core.Services
         private readonly IBaseRepository<BusinessAreaRelationship> _repository;
         private readonly IMapper _mapper;
         private readonly IDirectoryService<Customer, CustomersDto> _customerService;
+        private readonly IDirectoryService<BusinessAreaType, BusinessAreaTypeDto> _businessAreaTypeService;
         private readonly IDirectoryService<Person, PersonDto> _personService;
         private readonly IDirectoryService<ApplicationCustomer, ApplicationCustomerDto> _applicationCustomerService;
         private readonly IDirectoryService<BusinessArea, BusinessAreaDto> _businessAreaService;
@@ -28,7 +29,7 @@ namespace Application.Core.Services
         private readonly IResponseMessageHelper _responseMessageHelper;
         private readonly IValidationHelper<Customer> _customerValidationHelper;
         public BusinessAreaFilteringService(IBaseRepository<BusinessAreaRelationship> repository, IMapper mapper,
-            INewInstanceHelper instanceHelper, IBaseRepository<Customer> customerRepository, IBaseRepository<BusinessArea> businessAreaRepository, IDirectoryService<Person, PersonDto> personService, IDirectoryService<ApplicationCustomer, ApplicationCustomerDto> applicationCustomerService, IValidationHelper<Customer> customerValidationHelper)
+            INewInstanceHelper instanceHelper, IBaseRepository<Customer> customerRepository, IBaseRepository<BusinessAreaType> businessAreaTypeRepository, IBaseRepository<BusinessArea> businessAreaRepository, IDirectoryService<Person, PersonDto> personService, IDirectoryService<ApplicationCustomer, ApplicationCustomerDto> applicationCustomerService, IValidationHelper<Customer> customerValidationHelper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -38,6 +39,7 @@ namespace Application.Core.Services
             _responseMessageHelper = new ResponseMessageHelper();
             _customerValidationHelper = customerValidationHelper;
             _customerService = new DirectoryService<Customer, CustomersDto>(customerRepository, _mapper, _instanceHelper, null);
+            _businessAreaTypeService = new DirectoryService<BusinessAreaType, BusinessAreaTypeDto>(businessAreaTypeRepository, _mapper, _instanceHelper, null);
             _businessAreaService =
         new DirectoryService<BusinessArea, BusinessAreaDto>(businessAreaRepository, _mapper, _instanceHelper, null);
 
@@ -230,23 +232,72 @@ namespace Application.Core.Services
                 if (!result.Any()) return dropdownBusinessAreas;
 
                 List<BusinessAreaRelationshipDto> dropdownBusinessArea = _mapper.Map<List<BusinessAreaRelationship>, List<BusinessAreaRelationshipDto>>(result);
-                dropdownBusinessAreas = dropdownBusinessArea
-                    .Where(x => x.CustomerId == customerId).DistinctBy(y => y.BusinessAreaId).ToList();
 
+
+                foreach (BusinessAreaRelationshipDto dropdown in dropdownBusinessArea)
+                {
+                    CustomersDto customer = await _customerService.GetDirectoryAsync(dropdown.CustomerId);
+                    dropdown.CustomerName = customer.Name;
+
+                    BusinessAreaDto businessArea = await _businessAreaService.GetDirectoryAsync(dropdown.BusinessAreaId.Value);
+                    dropdown.BusinessAreaName = businessArea.Name;
+
+                    BusinessAreaDto filteredBusinessArea = await _businessAreaService.GetDirectoryAsync(dropdown.FilteredBusinessAreaId.Value);
+                    dropdown.FilteredBusinessAreaName = filteredBusinessArea.Name;
+                }
+
+                List<BusinessAreaDto> resultBusinessArea = await _businessAreaService.GetAllDirectoryAsync();
+
+                List<BusinessAreaDto> resultLocation =
+                    resultBusinessArea?.Where(x => x.BusinessAreaTypeId == 1)?.ToList();
+
+                foreach (var rba in resultLocation)
+                {
+                    BusinessAreaRelationshipDto location = dropdownBusinessArea.Where(x =>
+                            x.CustomerId == customerId && x.IsActive == true && x.BusinessAreaId == rba.Id)
+                        .FirstOrDefault();
+                    
+                    if (location != null) dropdownBusinessAreas.Add(location);
+                }
+
+                if (!dropdownBusinessAreas.Any()) return dropdownBusinessAreas;
+
+                dropdownBusinessAreas = dropdownBusinessAreas.DistinctBy(y => y.BusinessAreaName).ToList();
+                
                 if (!dropdownBusinessAreas.Any()) return dropdownBusinessAreas;
 
                 if (businessArea1 != 0)
                 {
-                    if (!dropdownBusinessAreas.Any()) return dropdownBusinessAreas;
 
-                    dropdownBusinessAreas = dropdownBusinessArea.Where(x => x.FilteredBusinessAreaId == businessArea1).ToList();
+                    List<BusinessAreaDto> resultDepartment =
+                        resultBusinessArea?.Where(x => x.BusinessAreaTypeId == 2)?.ToList();
+                    dropdownBusinessAreas = new List<BusinessAreaRelationshipDto>();
+                    foreach (BusinessAreaDto rba in resultDepartment)
+                    {
+                        BusinessAreaRelationshipDto department = dropdownBusinessArea.Where(x =>
+                                x.CustomerId == customerId && x.IsActive == true && x.BusinessAreaId == businessArea1)
+                            .FirstOrDefault();
 
+                        if (department != null) dropdownBusinessAreas.Add(department);
+                    }
+                    dropdownBusinessAreas = dropdownBusinessAreas.DistinctBy(y => y.FilteredBusinessAreaName).ToList();
                     if (!dropdownBusinessAreas.Any()) return dropdownBusinessAreas;
                 }
 
                 if (businessArea2 != 0)
                 {
-                    dropdownBusinessAreas = dropdownBusinessArea.Where(x => x.FilteredBusinessAreaId == businessArea2).ToList();
+                    List<BusinessAreaDto> resultIndustry =
+                        resultBusinessArea?.Where(x => x.BusinessAreaTypeId == 3)?.ToList();
+                    dropdownBusinessAreas = new List<BusinessAreaRelationshipDto>();
+                    foreach (BusinessAreaDto rba in resultIndustry)
+                    {
+                        BusinessAreaRelationshipDto industry = dropdownBusinessArea.Where(x =>
+                                x.CustomerId == customerId && x.IsActive == true && x.BusinessAreaId == businessArea2)
+                            .FirstOrDefault();
+
+                        if (industry != null) dropdownBusinessAreas.Add(industry);
+                    }
+                    dropdownBusinessAreas = dropdownBusinessAreas.DistinctBy(y => y.FilteredBusinessAreaName).ToList();
                 }
 
                 return dropdownBusinessAreas;

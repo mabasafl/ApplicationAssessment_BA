@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 using Application.DataTransfer.Dtos.Core;
 using Application.Core.Helpers.Interfaces;
 using Application.Core.Repositories.Interfaces;
+using System.Xml.Linq;
 
 namespace Application.Core.Helpers
 {
@@ -19,7 +21,7 @@ namespace Application.Core.Helpers
         {
             _repository = repository;
         }
-        public async Task<ResponseDto> Unique(string name)
+        public async Task<ResponseDto> Unique(string name, string regexPattern, string type)
         {
             ResponseDto response = new ResponseDto
             {
@@ -30,49 +32,23 @@ namespace Application.Core.Helpers
 
             try
             {
-                Regex regex = new Regex(Constants.Constants.Unique_Regex);
-                bool regexValid = regex.IsMatch(name);
-
                 List<string[]> errorMessages = new List<string[]>();
 
-                if (string.IsNullOrWhiteSpace(name))
-                {
-                    errorMessages.Add(new[] { typeof(Entity).Name + " cannot be empty. Name is required" });
-                    response.Message = errorMessages;
-                }
-
-                if (!regexValid)
-                {
-                    errorMessages.Add(new[] { $"{name} is not a valid {typeof(Entity).Name} name" });
-                    response.Message = errorMessages;
-                }
+                
+                errorMessages = await IsValid(name, regexPattern, type);
+                response.Message = errorMessages;
 
                 List<Entity> existingRecord = await _repository.GetAllAsync();
 
-                if (!existingRecord.Any()) return response;
-
-                foreach (Entity item in existingRecord)
+                if (existingRecord.Any())
                 {
-                    PropertyInfo propertyInfo = item.GetType().GetProperty("Name");
+                    ConcurrentBag<Entity> records = new ConcurrentBag<Entity>(existingRecord);
 
-                    if (propertyInfo != null)
+                    Parallel.ForEach(records, item =>
                     {
-                        string propertyValue = propertyInfo.GetValue(item).ToString().ToLower();
-                        if (propertyValue == name.ToLower())
-                        {
-                            errorMessages.Add(new[] { $"{name} already exists. {typeof(Entity).Name} name should be unique" });
-                            response.Message = errorMessages;
-                        }
-                    }
-
-                    if (typeof(Entity).Name.ToString() == "Person")
-                    {
-                        if (item.GetType().GetProperty("EmailAddress").GetValue(item).ToString() == name.ToLower())
-                        {
-                            errorMessages.Add(new[] { $"{name} already exists. {typeof(Entity).Name}'s email address should be unique" });
-                            response.Message = errorMessages;
-                        }
-                    }
+                        response.Message = EmailAddressValidation(item, name, errorMessages);
+                        response.Message = NameValidation(item, name, errorMessages);
+                    });
                 }
 
                 return response;
@@ -81,6 +57,38 @@ namespace Application.Core.Helpers
             {
                 return response;
             }
+        }
+
+        private List<string[]> NameValidation(Entity item, string name, List<string[]> errors)
+        {
+            List<string[]> errorMessages = errors;
+
+            string? nameValue = item.GetType().GetProperty("Name")?.GetValue(item)?.ToString();
+            if (nameValue == null) return errorMessages;
+            if (nameValue.ToLower() == name.ToLower()) errorMessages.Add(new[] { $"{name} already exists. {typeof(Entity).Name} name should be unique" });
+
+            return errorMessages;
+        }  
+        
+        private List<string[]> EmailAddressValidation(Entity item, string name, List<string[]> errors )
+        {
+            List<string[]> errorMessages = errors;
+
+            string? emailAddressValue = item.GetType().GetProperty("EmailAddress")?.GetValue(item)?.ToString();
+            if (emailAddressValue == null) return errorMessages;
+            if (emailAddressValue.ToLower() == name.ToLower()) errorMessages.Add(new[] { $"{name} already exists. {typeof(Entity).Name}'s email address should be unique" });
+            
+            return errorMessages;
+        }
+        
+        private async Task<List<string[]>> IsValid(string name, string pattern, string type)
+        {
+            Regex regex = new Regex(pattern);
+            bool regexValid = regex.IsMatch(name);
+            List<string[]> errorMessages = new List<string[]>();
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrEmpty(name)) errorMessages.Add(new[] { typeof(Entity).Name + " cannot be empty. Name is required" });
+            if (!regexValid) errorMessages.Add(new[] { $"'{name}' is not a valid {typeof(Entity).Name} {type}" });
+            return errorMessages;
         }
 
     }

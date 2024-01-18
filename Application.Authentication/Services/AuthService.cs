@@ -161,7 +161,7 @@ namespace Application.Authentication.Services
 
             JwtSecurityToken token = new JwtSecurityToken(
                 claims: claims,
-                expires:DateTime.Now.AddMinutes(60),
+                expires:DateTime.Now.AddDays(7),
                 signingCredentials: credentials
                 );
 
@@ -175,7 +175,7 @@ namespace Application.Authentication.Services
             RefreshToken refreshToken = new RefreshToken
             {
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-                Expires = DateTime.Now.AddMinutes(60),
+                Expires = DateTime.Now.AddDays(7),
                 Created = DateTime.Now
             };
 

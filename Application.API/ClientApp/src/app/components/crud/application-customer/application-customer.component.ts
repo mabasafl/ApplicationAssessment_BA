@@ -44,6 +44,9 @@ export class ApplicationCustomerComponent implements OnInit {
     this.applicationCustomerService.getAllApplicationsCustomers().subscribe((response) => {
       if(response){
         this.tableData = response;
+        for(var i=0; i < this.tableData.length; i++){
+          this.tableData[i].applicationName == this.getApplication(1);
+        }
 
         this.dataSource = new MatTableDataSource<ApplicationCustomers>(this.tableData);
         this.dataSource.paginator = this.paginator;

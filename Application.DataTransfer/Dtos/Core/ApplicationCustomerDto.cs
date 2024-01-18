@@ -10,7 +10,6 @@ namespace Application.DataTransfer.Dtos.Core
     {
         public int ApplicationId { get; set; }
         public int CustomerId { get; set; }
-        public int BusinessAreaId { get; set; }
         public string? CustomerName { get; set; }
         public string? FriendlyUrl { get; set; }
     }
