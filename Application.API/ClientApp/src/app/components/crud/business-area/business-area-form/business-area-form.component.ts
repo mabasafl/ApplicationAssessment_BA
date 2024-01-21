@@ -31,6 +31,7 @@ export class BusinessAreaFormComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
+      id: new FormControl(0),
       name: new FormControl(''),
       businessAreaTypeId: new FormControl(0),
       customerId: new FormControl(0),

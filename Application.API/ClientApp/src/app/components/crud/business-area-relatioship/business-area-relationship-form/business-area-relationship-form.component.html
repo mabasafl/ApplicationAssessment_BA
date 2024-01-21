@@ -22,19 +22,35 @@
             
         </div>
         <div class="row">
-            <mat-form-field appearance="outline">
-              <mat-label>Filtered business Area:</mat-label>
+            <mat-form-field appearance="outline" *ngIf="businessAreaTypeRelationships?.businessAreaType1 == true">
+              <mat-label>Location:</mat-label>
               <mat-select formControlName="filteredBusinessAreaId">
-                  <mat-option *ngFor="let businessArea of filteredBusinessAreas" [value]="businessArea.id">{{businessArea.name}}
+                  <mat-option *ngFor="let businessArea of filteredLocationBusinessAreas" [value]="businessArea.id">{{businessArea.name}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+            <mat-form-field appearance="outline" *ngIf="businessAreaTypeRelationships?.businessAreaType2 == true">
+              <mat-label>Department:</mat-label>
+              <mat-select formControlName="filteredBusinessAreaId2">
+                  <mat-option *ngFor="let businessArea of filteredDepartmentBusinessAreas" [value]="businessArea.id">{{businessArea.name}}
                   </mat-option>
               </mat-select>
           </mat-form-field>
             
         </div>
+        <div class="row" >
+            <mat-form-field appearance="outline" *ngIf="businessAreaTypeRelationships?.businessAreaType3 == true">
+              <mat-label>Industry:</mat-label>
+              <mat-select formControlName="filteredBusinessAreaId3">
+                  <mat-option *ngFor="let businessArea of filteredIndustryBusinessAreas" [value]="businessArea.id">{{businessArea.name}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>            
+        </div>
     </div>
     <div mat-dialog-actions class="action-btns">
-        <button style="margin: 10px;" mat-raised-button type="submit">{{data ? 'Update': 'Save'}}</button>
         <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
+        <button style="margin: 10px;" mat-raised-button type="submit">{{data ? 'Update': 'Save'}}</button>
     </div>
   </form>
   <div *ngIf="responseMessage?.message != undefined || responseMessage?.message != null" class="errorMessage">

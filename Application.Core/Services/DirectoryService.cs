@@ -165,7 +165,7 @@ namespace Application.Core.Services
             try
             {
                 bool result = await _repository.UpdateAsync(directoryData);
-
+                
                 if (!result)
                 {
                     response = await _responseMessageHelper.ResponseMessage(result,

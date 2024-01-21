@@ -12,6 +12,7 @@ import { BusinessAreaComponent } from './components/crud/business-area/business-
 import { ApplicationCustomerComponent } from './components/crud/application-customer/application-customer.component';
 import { BusinessAreaRelatioshipComponent } from './components/crud/business-area-relatioship/business-area-relatioship.component';
 import { AuthGuard } from './gaurds/auth.guard';
+import { BusinessAreaTypeRelationshipComponent } from './components/crud/business-area-type-relationship/business-area-type-relationship.component';
 
 const routes: Routes = [
   {path:'', component: LandingPageComponent},
@@ -25,6 +26,7 @@ const routes: Routes = [
     {path: 'crud/business-area', component: BusinessAreaComponent, canActivate: [AuthGuard]},
     {path: 'crud/application-customer', component: ApplicationCustomerComponent, canActivate: [AuthGuard]},
     {path: 'crud/business-area-relationship', component: BusinessAreaRelatioshipComponent, canActivate: [AuthGuard]},
+    {path: 'crud/business-area-type-relationship', component: BusinessAreaTypeRelationshipComponent, canActivate: [AuthGuard]},
   {path: '**', redirectTo:'/404'},
   
 ];

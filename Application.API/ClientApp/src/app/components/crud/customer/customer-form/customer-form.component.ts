@@ -31,6 +31,7 @@ export class CustomerFormComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
+      id: new FormControl(0),
       name: new FormControl(''),
       createdBy: new FormControl(this.userLogged.userName),
       dateCreated: new FormControl(new Date()),

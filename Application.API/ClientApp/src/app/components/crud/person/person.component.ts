@@ -24,7 +24,7 @@ export class PersonComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private personService: PersonService, private dialog: MatDialog) { 
-    this.tableColumns = ['firstName', 'lastName', 'emailAddress', 'contactNumber', 'createdBy', 'dateCreated', 'action'];
+    this.tableColumns = ['firstName', 'lastName', 'emailAddress', 'mobileNumber', 'createdBy', 'dateCreated', 'action'];
   }
 
   ngOnInit() {
