@@ -17,12 +17,17 @@ mat-hint {
 }
 
 button:nth-child(1){
-    background: green;
-    color: white;
+    background: gray;
 }
 button:nth-child(2){
-    background: gray;
+    background: green;
+    color: white;
 }
 .action-btns button {
     padding: 5px 20px;
 }
+
+.errorMessage{
+    color: red;
+    margin-top: 20px;
+  }

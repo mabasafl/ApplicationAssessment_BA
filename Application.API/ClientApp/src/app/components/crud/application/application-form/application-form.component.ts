@@ -23,6 +23,7 @@ export class ApplicationFormComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
+      id: new FormControl(0),
       name: new FormControl(''),
       createdBy: new FormControl(''),
       dateCreated: new FormControl(new Date()),

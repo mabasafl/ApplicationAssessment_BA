@@ -49,6 +49,7 @@ builder.Services.AddScoped<IBusinessAreaFilteringService, BusinessAreaFilteringS
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IApplicationCustomerService, ApplicationCustomerService>();
 builder.Services.AddScoped(typeof(IPropertyFinderHelper<>), typeof(PropertyFinderHelper<>));
+builder.Services.AddScoped<IBusinessAreaTypeRelationshipService, BusinessAreaTypeRelationshipService>();
 
 builder.Services.AddDbContext<DataContext>(options =>
 {

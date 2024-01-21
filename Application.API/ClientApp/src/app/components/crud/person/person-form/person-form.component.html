@@ -21,7 +21,7 @@
           </mat-form-field>
           <mat-form-field appearance="outline">
               <mat-label>Mobile No:</mat-label>
-              <input matInput type="string" placeholder="i.e 0785003333" formControlName="contactNumber">
+              <input matInput type="string" placeholder="i.e 0785003333" formControlName="mobileNumber">
           </mat-form-field>
       </div>
       <div class="row">
@@ -33,33 +33,36 @@
               </mat-select>
           </mat-form-field>
           <mat-form-field appearance="outline">
-              <mat-label>Business Area 1 (Location):</mat-label>
-              <mat-select formControlName="buisnessArea1">
-                  <mat-option *ngFor="let businessArea of location" [value]="businessArea.id">{{businessArea.name}}
+              <mat-label>Business Area 1:</mat-label>
+              <mat-select formControlName="businessArea1">
+                  <mat-option *ngFor="let businessArea of businessAreas" [value]="businessArea.id">{{businessArea.name}}
                   </mat-option>
               </mat-select>
           </mat-form-field>
       </div>
       <div class="row">
         <mat-form-field appearance="outline">
-          <mat-label>Business Area 2 (Department):</mat-label>
-          <mat-select formControlName="buisnessArea1">
-              <mat-option *ngFor="let businessArea of department" [value]="businessArea.id">{{businessArea.name}}
+          <mat-label>Business Area 2:</mat-label>
+          <mat-select formControlName="businessArea2">
+              <mat-option *ngFor="let businessArea of businessAreas" [value]="businessArea.id">{{businessArea.name}}
               </mat-option>
           </mat-select>
       </mat-form-field>
         <mat-form-field appearance="outline">
-          <mat-label>Business Area 3 (Industry):</mat-label>
-          <mat-select formControlName="buisnessArea1">
-              <mat-option *ngFor="let businessArea of industry" [value]="businessArea.id">{{businessArea.name}}
+          <mat-label>Business Area 3:</mat-label>
+          <mat-select formControlName="businessArea3">
+              <mat-option *ngFor="let businessArea of businessAreas" [value]="businessArea.id">{{businessArea.name}}
               </mat-option>
           </mat-select>
       </mat-form-field>
       </div>
   </div>
   <div mat-dialog-actions class="action-btns">
-      <button style="margin: 10px;" mat-raised-button type="submit">{{data ? 'Update': 'Save'}}</button>
       <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
+      <button style="margin: 10px;" mat-raised-button type="submit">{{data ? 'Update': 'Save'}}</button>      
   </div>
 </form>
+<div *ngIf="responseMessage?.message != undefined || responseMessage?.message != null" class="errorMessage">
+    <span >* {{responseMessage?.message}} </span>
+  </div>
 </div>

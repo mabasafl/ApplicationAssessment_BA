@@ -21,5 +21,7 @@ namespace Application.Data.Data
         public DbSet<Customer> Customers { get; set; } = null!;
         public DbSet<Person> Persons { get; set; } = null!;
         public DbSet<Users> Users { get; set; } = null!;
+
+        public DbSet<BusinessAreaTypeRelationship> BusinessAreaTypeRelationships { get; set; }
     }
 }

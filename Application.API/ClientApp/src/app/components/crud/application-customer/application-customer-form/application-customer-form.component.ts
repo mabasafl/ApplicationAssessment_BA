@@ -40,6 +40,7 @@ export class ApplicationCustomerFormComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
+      id: new FormControl(0),
       applicationId: new FormControl(0),
       applicationName: new FormControl(''),
       customerId: new FormControl(0),

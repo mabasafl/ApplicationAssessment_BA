@@ -36,8 +36,7 @@ export class LoginComponent implements OnInit {
     this.applicationService.getApplicationByName(this.activatedRoute.snapshot.paramMap.get('friendlyUrl') ?? '').subscribe((result) => {
       this.application = result;
       if(this.friendlyUrl == null || this.friendlyUrl == undefined || this.application.name == null || this.application.name != this.friendlyUrl){
-        this.isUrlValid = false;
-        this.router.navigateByUrl('/404');        
+        this.isUrlValid = false;       
       }else if(this.friendlyUrl == this.application.name){
         this.isUrlValid = true;
       }

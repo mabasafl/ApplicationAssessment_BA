@@ -3,32 +3,31 @@
     justify-content: space-between;
     gap: 20px;
     margin-bottom: 10px;
-}
-mat-form-field {
+  }
+  mat-form-field {
     width: 100%;
-}
-mat-hint {
+  }
+  mat-hint {
     margin: 5px;
-}
-.action-btns {
+  }
+  .action-btns {
     display: flex;
     justify-content: space-between;
     margin-right: 10px;
-}
-
-button:nth-child(1){
+  }
+  
+  button:nth-child(1){
     background: gray;
-    
 }
 button:nth-child(2){
     background: green;
     color: white;
 }
-.action-btns button {
+  .action-btns button {
     padding: 5px 20px;
-}
-
-.errorMessage{
+  }
+  
+  .errorMessage{
     color: red;
     margin-top: 20px;
-}
+  }

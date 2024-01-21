@@ -17,6 +17,8 @@ namespace Application.DataTransfer.Dtos.Core
         public string BusinessAreaName { get; set;}
         public string FilteredBusinessAreaName { get; set; }
         public CustomersDto customer { get; set; }
+        public int BusinessAreaTypeId { get; set; }
+        public int FilteredBusinessAreaTypeId { get; set; }
 
     }
 }

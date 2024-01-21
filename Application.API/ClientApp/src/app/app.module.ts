@@ -42,6 +42,9 @@ import { ApplicationCustomerComponent } from './components/crud/application-cust
 import { BusinessAreaRelatioshipComponent } from './components/crud/business-area-relatioship/business-area-relatioship.component';
 import { BusinessAreaRelationshipFormComponent } from './components/crud/business-area-relatioship/business-area-relationship-form/business-area-relationship-form.component';
 import { ApplicationCustomerFormComponent } from './components/crud/application-customer/application-customer-form/application-customer-form.component';
+import { BusinessAreaTypeRelationshipComponent } from './components/crud/business-area-type-relationship/business-area-type-relationship.component';
+import { BusinessAreaTypeRelationshipFormComponent } from './components/crud/business-area-type-relationship/business-area-type-relationship-form/business-area-type-relationship-form.component';
+import {MatCheckboxModule} from '@angular/material/checkbox'
 
 @NgModule({
   declarations: [
@@ -66,7 +69,9 @@ import { ApplicationCustomerFormComponent } from './components/crud/application-
     ApplicationCustomerFormComponent,
     ApplicationFormComponent,
     BusinessAreaRelatioshipComponent,
-    BusinessAreaRelationshipFormComponent
+    BusinessAreaRelationshipFormComponent,
+    BusinessAreaTypeRelationshipComponent,
+    BusinessAreaTypeRelationshipFormComponent
 
   ],
   imports: [
@@ -96,6 +101,9 @@ import { ApplicationCustomerFormComponent } from './components/crud/application-
     FormsModule,
     MatFormFieldModule,
 
+
+    MatCheckboxModule,
+    MatInputModule,
 
 
 

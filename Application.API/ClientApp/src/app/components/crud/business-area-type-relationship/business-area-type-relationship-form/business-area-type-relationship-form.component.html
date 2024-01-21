@@ -1,6 +1,6 @@
 <div class="container">
   <div mat-dialog-title>
-    <h1>{{data ? 'Edit': 'Add'}} Application Customers</h1>
+    <h1>{{data ? 'Edit': 'Add'}} Business Area Relationship</h1>
   </div>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div mat-dialog-content class="content">
@@ -13,13 +13,18 @@
               </mat-select>
           </mat-form-field>
             <mat-form-field appearance="outline">
-              <mat-label>Application:</mat-label>
-              <mat-select formControlName="applicationId">
-                  <mat-option *ngFor="let application of applications" [value]="application.id">{{application.name}}
+              <mat-label>Business Area:</mat-label>
+              <mat-select formControlName="businessAreaId">
+                  <mat-option *ngFor="let businessArea of businessAreas" [value]="businessArea.id">{{businessArea.name}}
                   </mat-option>
               </mat-select>
           </mat-form-field>
             
+        </div>
+        <div class="row">
+            <mat-option *ngIf="!locationOption" ><p><mat-checkbox formControlName="businessAreaType1">Location</mat-checkbox></p></mat-option>
+            <mat-option *ngIf="!departmentOption"><p><mat-checkbox formControlName="businessAreaType2">Department</mat-checkbox></p></mat-option>
+            <mat-option *ngIf="!industryOption"><p><mat-checkbox formControlName="businessAreaType3">Industry</mat-checkbox></p></mat-option>  
         </div>
     </div>
     <div mat-dialog-actions class="action-btns">
