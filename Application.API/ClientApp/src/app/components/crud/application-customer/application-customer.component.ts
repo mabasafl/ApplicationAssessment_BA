@@ -11,6 +11,7 @@ import { CustomerService } from 'src/app/services/crud/customer.service';
 import { Customer } from 'src/app/models/customer';
 import { ApplicationCrudService } from 'src/app/services/crud/application-crud.service';
 import { Application } from 'src/app/models/application';
+import { DialogComponent } from '../../dialog/dialog.component';
 
 @Component({
   selector: 'app-application-customer',
@@ -77,12 +78,23 @@ export class ApplicationCustomerComponent implements OnInit {
     })
   }
 
-  deleteApplicationCustomer(id: number){
-    let confirm = window.confirm("Are you sure?")
-    if(confirm){
-      
-    }
-  }
+  deleteApplicationCustomer(data: ApplicationCustomers){
+    const deleteDialogRef = this.dialog.open(DialogComponent, {data});
+ 
+    deleteDialogRef.afterClosed().subscribe((value)=>{
+     if(value){
+       this.applicationCustomerService.deleteApplicationCustomer(data).subscribe((response) =>{
+         if(response.success){
+           alert(`record was deleted succesfully.`);
+           this.getAllApplicationCustomers();
+         }else{
+           alert("record was not deleted successfully.");
+         }
+       }
+       )
+     }
+    })
+   }
 
   getCustomer(customerId: number): string{
     

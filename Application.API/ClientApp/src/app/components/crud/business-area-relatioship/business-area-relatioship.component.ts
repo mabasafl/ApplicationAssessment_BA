@@ -9,6 +9,7 @@ import { BusinessAreaRelationshipService } from 'src/app/services/crud/business-
 import { CustomerService } from 'src/app/services/crud/customer.service';
 import { BusinessAreaService } from 'src/app/services/crud/business-area.service';
 import { BusinessArea } from 'src/app/models/business-area';
+import { DialogComponent } from '../../dialog/dialog.component';
 
 @Component({
   selector: 'app-business-area-relatioship',
@@ -72,11 +73,23 @@ export class BusinessAreaRelatioshipComponent implements OnInit {
     })
   }
 
-  deleteBusinessAreaRelationship(id: number){
-    let confirm = window.confirm("Are you sure?")
-    if(confirm){
-      
+  deleteBusinessAreaRelationship(data: BusinessAreaFiltering){
+   const deleteDialogRef = this.dialog.open(DialogComponent, {data});
+
+   deleteDialogRef.afterClosed().subscribe((value)=>{
+    if(value){
+      console.log('data we are deleteing: ',data)
+      this.businessAreaRelationshipService.deleteBusinessAreaRelationship(data).subscribe((response) =>{
+        if(response.success){
+          alert(`record with business area ${data.businessAreaName} filtering ${data.filteredBusinessAreaName} was deleted succesfully.`);
+          this.getAllBusinessAreaRelationships();
+        }else{
+          alert("record was not deleted successfully.");
+        }
+      }
+      )
     }
+   })
   }
 
   getCustomer(customerId: number): string{

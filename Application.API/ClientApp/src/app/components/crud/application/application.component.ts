@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Application } from 'src/app/models/application';
 import { ApplicationFormComponent } from './application-form/application-form.component';
 import { ApplicationCrudService } from 'src/app/services/crud/application-crud.service';
+import { DialogComponent } from '../../dialog/dialog.component';
 
 @Component({
   selector: 'app-application',
@@ -65,11 +66,22 @@ export class ApplicationComponent implements OnInit {
     })
   }
 
-  deleteApplication(id: number){
-    let confirm = window.confirm("Are you sure?")
-    if(confirm){
-      
-    }
+  deleteApplication(data: Application){
+    const deleteDialogRef = this.dialog.open(DialogComponent, {data});
+ 
+    deleteDialogRef.afterClosed().subscribe((value)=>{
+     if(value){
+       this.applicationService.deleteApplication(data).subscribe((response) =>{
+         if(response.success){
+           alert(`record was deleted succesfully.`);
+           this.getAllApplication();
+         }else{
+           alert("record was not deleted successfully.");
+         }
+       }
+       )
+     }
+    })
   }
 
 }

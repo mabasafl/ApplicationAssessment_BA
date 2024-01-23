@@ -24,15 +24,15 @@ constructor(private http: HttpClient) {
  }
 
  addBusinessAreaRelationship(businessAreaRelationship: BusinessAreaFiltering): Observable<ResponseMessage>{
-  return this.http.post<ResponseMessage>(`${this.baseUrl}/post`,businessAreaRelationship)
+  return this.http.post<ResponseMessage>(`${this.baseUrl}/post`,businessAreaRelationship);
 }
 
 updateBusinessAreaRelationship(businessAreaRelationship: BusinessAreaFiltering): Observable<ResponseMessage>{
-  return this.http.put<ResponseMessage>(`${this.baseUrl}/update`, businessAreaRelationship)
+  return this.http.put<ResponseMessage>(`${this.baseUrl}/update`, businessAreaRelationship);
 }
 
-deleteBusinessAreaRelationship(){
-
+deleteBusinessAreaRelationship(data: BusinessAreaFiltering){
+  return this.http.delete<ResponseMessage>(`${this.baseUrl}/delete`,{body: data});
 }
 
 }

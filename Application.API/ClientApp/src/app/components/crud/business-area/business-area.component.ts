@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { BusinessArea } from 'src/app/models/business-area';
 import { BusinessAreaService } from 'src/app/services/crud/business-area.service';
 import { BusinessAreaFormComponent } from './business-area-form/business-area-form.component';
+import { DialogComponent } from '../../dialog/dialog.component';
 
 @Component({
   selector: 'app-business-area',
@@ -65,11 +66,22 @@ export class BusinessAreaComponent implements OnInit {
     })
   }
 
-  deleteBusinessArea(id: number){
-    let confirm = window.confirm("Are you sure?")
-    if(confirm){
-      
-    }
-  }
+  deleteBusinessArea(data: BusinessArea){
+    const deleteDialogRef = this.dialog.open(DialogComponent, {data});
+ 
+    deleteDialogRef.afterClosed().subscribe((value)=>{
+     if(value){
+       this.businessAreaService.deleteBusinessArea(data).subscribe((response) =>{
+         if(response.success){
+           alert(`record was deleted succesfully.`);
+           this.getAllBusinessAreas();
+         }else{
+           alert("record was not deleted successfully.");
+         }
+       }
+       )
+     }
+    })
+   }
 
 }

@@ -24,15 +24,15 @@ export class BusinessAreaService {
   }
 
   addBusinessArea(businessArea: BusinessArea): Observable<ResponseMessage>{
-    return this.http.post<ResponseMessage>(`${this.baseUrl}/post`,businessArea)
+    return this.http.post<ResponseMessage>(`${this.baseUrl}/post`,businessArea);
   }
   
   updateBusinessArea(businessArea: BusinessArea): Observable<ResponseMessage>{
-    return this.http.put<ResponseMessage>(`${this.baseUrl}/update`, businessArea)
+    return this.http.put<ResponseMessage>(`${this.baseUrl}/update`, businessArea);
   }
   
-  deleteBusinessArea(){
-    
+  deleteBusinessArea(data: BusinessArea){
+    return this.http.delete<ResponseMessage>(`${this.baseUrl}/delete`,{body:data});
   }
 
 }

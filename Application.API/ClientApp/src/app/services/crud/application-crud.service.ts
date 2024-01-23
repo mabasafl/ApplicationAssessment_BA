@@ -35,6 +35,6 @@ updateApplication(application: Application): Observable<ResponseMessage>{
   return this.http.put<ResponseMessage>(`${this.baseUrl}/update`, application)
 }
 
-deletePerson(){
-
+deleteApplication(data: Application){
+  return this.http.delete<ResponseMessage>(`${this.baseUrl}/delete`,{body: data});
 }}

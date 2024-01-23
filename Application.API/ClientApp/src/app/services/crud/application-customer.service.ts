@@ -32,8 +32,8 @@ updateApplicationCustomer(applicationCustomer: ApplicationCustomers): Observable
   return this.http.put<ResponseMessage>(`${this.baseUrl}/update`, applicationCustomer)
 }
 
-deleteApplicationCustomer(){
-
+deleteApplicationCustomer(data: ApplicationCustomers){
+  return this.http.delete<ResponseMessage>(`${this.baseUrl}/delete`,{body: data});
 }
 
 }

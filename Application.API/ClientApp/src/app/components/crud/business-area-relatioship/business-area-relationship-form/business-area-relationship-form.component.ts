@@ -1,3 +1,4 @@
+import { takeUntil } from 'rxjs';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -131,19 +132,15 @@ export class BusinessAreaRelationshipFormComponent implements OnInit {
         })
       }else{
                
-        if(this.fba2 != 0 || this.fba2 != undefined){
-        this.form.setControl("filteredBusinessAreaId",new FormControl(this.fba2))
-         this.addForm();
+        if(this.fba2 != 0 || this.fba2 != undefined || !Number.isNaN(this.fba2) || this.fba2 != null){
+        this.form.setControl("filteredBusinessAreaId",new FormControl(this.fba2));
+        this.addForm();    
         }
 
-        
-        if(this.fba3 != 0 || this.fba3 != undefined){
-        this.form.setControl("filteredBusinessAreaId",new FormControl(this.fba3))
+        if(this.fba3 != 0 || this.fba3 != undefined || !Number.isNaN(this.fba3) || this.fba3 != null){
+        this.form.setControl("filteredBusinessAreaId",new FormControl(this.fba3));         
          this.addForm();
         }
-
-        this.form.reset;
-        this.dialogRef.close(true);   
       }
   }
 
@@ -187,10 +184,22 @@ export class BusinessAreaRelationshipFormComponent implements OnInit {
     return this.businessAreaTypeRelationships;
   }
 
-  addForm(){
+  addForm(): ResponseMessage{
     this.businessAreaRelationshipService.addBusinessAreaRelationship(this.form.value).subscribe((response) =>{
         this.responseMessage = response;
     });
+
+    setTimeout(() => {
+      if(!this.responseMessage.success){
+        return;
+      }else{
+        this.dialogRef.close(true);
+      }
+
+    }
+      ,100)
+
+    return this.responseMessage;
   }
 
 }

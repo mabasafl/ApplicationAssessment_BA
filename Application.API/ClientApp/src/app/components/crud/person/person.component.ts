@@ -6,6 +6,7 @@ import { Person } from 'src/app/models/person';
 import { PersonService } from 'src/app/services/crud/person.service';
 import { PersonFormComponent } from './person-form/person-form.component';
 import { MatSort } from '@angular/material/sort';
+import { DialogComponent } from '../../dialog/dialog.component';
 
 @Component({
   selector: 'app-person',
@@ -66,11 +67,22 @@ export class PersonComponent implements OnInit {
     })
   }
 
-  deletePerson(id: number){
-    let confirm = window.confirm("Are you sure?")
-    if(confirm){
-      
-    }
+  deletePerson(data: Person){
+    const deleteDialogRef = this.dialog.open(DialogComponent, {data});
+ 
+    deleteDialogRef.afterClosed().subscribe((value)=>{
+     if(value){
+       this.personService.deletePerson(data).subscribe((response) =>{
+         if(response.success){
+           alert(`record was deleted succesfully.`);
+           this.getAllPersons();
+         }else{
+           alert("record was not deleted successfully.");
+         }
+       }
+       )
+     }
+    })
   }
     
 }

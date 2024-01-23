@@ -10,7 +10,7 @@ namespace Application.DataTransfer.Dtos.Core
     {
         public int Id { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.Now;
-        public string CreatedBy { get; set; } = null!;
+        public string? CreatedBy { get; set; } = null!;
         public DateTime? DateModified { get; set; } = DateTime.Now;
         public string? ModifiedBy { get; set; } = null;
 

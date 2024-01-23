@@ -71,7 +71,8 @@ namespace Application.Core.Services
                              }
                          });
 
-                bool result = await _repository.AddAsync(businessAreaRelationshipEntity);
+                 bool result = false;
+                 if (businessAreaRelationshipEntity.FilteredBusinessAreaId != null) result = await _repository.AddAsync(businessAreaRelationshipEntity);
 
                 if (!result)
                 {
@@ -81,6 +82,32 @@ namespace Application.Core.Services
 
                 response = await _responseMessageHelper.ResponseMessage(result,
                     new List<string[]> { new[] { "adding business area relationship was successful", "Thank You" } });
+
+                return response;
+            }
+            catch (Exception e)
+            {
+                return response;
+            }
+        }
+
+        public async Task<ResponseDto> DeleteBusinessAreaRelationshipAsync(BusinessAreaRelationshipDto data)
+        {
+            ResponseDto response = new ResponseDto();
+
+            try
+            {
+                BusinessAreaRelationship entity = _mapper.Map<BusinessAreaRelationshipDto, BusinessAreaRelationship>(data);
+                bool result = await _repository.DeleteAsync(entity);
+
+                if (!result)
+                {
+                    response = await _responseMessageHelper.ResponseMessage(result,
+                        new List<string[]> { new[] { "deleting business area relationship was not successful", "Please try again later" } });
+                }
+
+                response = await _responseMessageHelper.ResponseMessage(result,
+                    new List<string[]> { new[] { "deleting business area relationship was successful", "Thank You" } });
 
                 return response;
             }

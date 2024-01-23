@@ -15,7 +15,7 @@ namespace Application.Core.Interfaces
         Task<ResponseDto> AddBusinessAreaTypeRelationshipAsync(BusinessAreaTypeRelationshipDto data);
         Task<ResponseDto> UpdateBusinessAreaTypeRelationshipAsync(BusinessAreaTypeRelationship data);
         Task<BusinessAreaTypeRelationshipDto> GetBusinessAreaTypeRelationshipAsync(int id);
-        Task<ResponseDto> DeleteBusinessAreaTypeRelationshipAsync(BusinessAreaTypeRelationship data);
+        Task<ResponseDto> DeleteBusinessAreaTypeRelationshipAsync(BusinessAreaTypeRelationshipDto data);
 
     }
 }

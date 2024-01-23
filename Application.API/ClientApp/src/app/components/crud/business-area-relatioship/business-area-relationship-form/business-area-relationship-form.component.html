@@ -53,7 +53,7 @@
         <button style="margin: 10px;" mat-raised-button type="submit">{{data ? 'Update': 'Save'}}</button>
     </div>
   </form>
-  <div *ngIf="responseMessage?.message != undefined || responseMessage?.message != null" class="errorMessage">
-    <span >* {{responseMessage?.message}} </span>
+  <div *ngIf="!responseMessage?.success" class="errorMessage">
+    <span > {{responseMessage?.message}} </span>
   </div>
   </div>

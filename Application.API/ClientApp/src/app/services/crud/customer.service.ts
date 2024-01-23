@@ -30,6 +30,6 @@ updateCustomer(customer : Customer): Observable<ResponseMessage>{
   return this.http.put<ResponseMessage>(`${this.baseUrl}/update`, customer)
 }
 
-deletePerson(){
-  
+deleteCustomer(data: Customer){
+  return this.http.delete<ResponseMessage>(`${this.baseUrl}/delete`,{body: data});
 }}
