@@ -53,5 +53,12 @@ namespace Application.API.Controllers
             ResponseDto response = await _businessAreaFiltering.AddBusinessAreaRelationshipAsync(data);
             return Ok(response);
         }
+
+        [HttpDelete("delete")]
+        public async Task<IActionResult> DeleteAsync(BusinessAreaRelationshipDto data)
+        {
+            ResponseDto response = await _businessAreaFiltering.DeleteBusinessAreaRelationshipAsync(data);
+            return Ok(response);
+        }
     }
 }

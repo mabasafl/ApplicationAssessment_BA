@@ -1,6 +1,6 @@
 <div class="main-body">
   <div class="add-btn">
-    <button mat-button (click)="openDialog()">Add Business Area Realtionship</button>
+    <button mat-button (click)="openDialog()">Add Business Area Type Realtionship</button>
   </div>
   <div>
      <div class="table-container">
@@ -43,7 +43,7 @@
              <span (click)="openEditForm(row)" class="action-icon" style="margin-right: 5px;">
                <mat-icon color="primary">edit</mat-icon>
              </span>
-             <span (click)="deleteBusinessAreaRelationship(row.id)" class="action-icon">
+             <span (click)="deleteBusinessAreaRelationship(row)" class="action-icon">
                <mat-icon color="warn">delete</mat-icon>
              </span>
            </td>

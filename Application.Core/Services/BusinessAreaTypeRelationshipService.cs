@@ -81,12 +81,13 @@ namespace Application.Core.Services
             }
         }
 
-        public async Task<ResponseDto> DeleteBusinessAreaTypeRelationshipAsync(BusinessAreaTypeRelationship entity)
+        public async Task<ResponseDto> DeleteBusinessAreaTypeRelationshipAsync(BusinessAreaTypeRelationshipDto data)
         {
             ResponseDto response = new ResponseDto();
 
             try
             {
+                BusinessAreaTypeRelationship entity = _mapper.Map<BusinessAreaTypeRelationshipDto, BusinessAreaTypeRelationship>(data);
                 bool result = await _repository.DeleteAsync(entity);
 
                 if (!result)
@@ -118,13 +119,13 @@ namespace Application.Core.Services
                 List<BusinessAreaTypeRelationshipDto> businessAreaTypeRelationship =
                     _mapper.Map<List<BusinessAreaTypeRelationship>, List<BusinessAreaTypeRelationshipDto>>(result);
 
-                List<BusinessAreaTypeRelationshipDto> filtersBusinessAreaTypeRelationship =
-                    businessAreaTypeRelationship
-                        .Where(x => x.CustomerId == customerId && x.IsActive == true).ToList();
+                List<BusinessAreaTypeRelationshipDto> filtersBusinessAreaTypeRelationship = customerId == 0 ?  businessAreaTypeRelationship
+                            .Where(x =>x.IsActive == true).ToList() : businessAreaTypeRelationship
+                            .Where(x => x.CustomerId == customerId && x.IsActive == true).ToList();
 
                 CustomersDto customer = new CustomersDto();
 
-                foreach (var element in filtersBusinessAreaTypeRelationship)
+                foreach (BusinessAreaTypeRelationshipDto element in filtersBusinessAreaTypeRelationship)
                 {
                     customer = await _customerService.GetDirectoryAsync(element.CustomerId);
                     element.CustomerName = customer.Name;

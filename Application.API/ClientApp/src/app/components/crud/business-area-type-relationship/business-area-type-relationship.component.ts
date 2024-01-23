@@ -9,6 +9,7 @@ import { BusinessAreaTypeRelationshipService } from 'src/app/services/business-a
 import { BusinessAreaRelationshipService } from 'src/app/services/crud/business-area-relationship.service';
 import { BusinessAreaService } from 'src/app/services/crud/business-area.service';
 import { BusinessAreaTypeRelationshipFormComponent } from './business-area-type-relationship-form/business-area-type-relationship-form.component';
+import { DialogComponent } from '../../dialog/dialog.component';
 
 @Component({
   selector: 'app-business-area-type-relationship',
@@ -39,7 +40,7 @@ export class BusinessAreaTypeRelationshipComponent implements OnInit {
   }
 
   getAllBusinessAreaTypeRelationships(){
-    this.businessAreaTypeRelationshipService.getAllBusinessAreaTypeRelationship().subscribe((response) => {
+    this.businessAreaTypeRelationshipService.getAllBusinessAreaTypeRelationship(0).subscribe((response) => {
       if(response){
         this.tableData = response;
 
@@ -72,10 +73,21 @@ export class BusinessAreaTypeRelationshipComponent implements OnInit {
     })
   }
 
-  deleteBusinessAreaRelationship(id: number){
-    let confirm = window.confirm("Are you sure?")
-    if(confirm){
-      
-    }
+  deleteBusinessAreaRelationship(data: BusinessAreaTypeRelationship){
+    const deleteDialogRef = this.dialog.open(DialogComponent, {data});
+ 
+    deleteDialogRef.afterClosed().subscribe((value)=>{
+     if(value){
+       this.businessAreaTypeRelationshipService.deleteBusinessAreaTypeRelationship(data).subscribe((response) =>{
+         if(response.success){
+           alert(`record was deleted succesfully.`);
+           this.getAllBusinessAreaTypeRelationships();
+         }else{
+           alert("record was not deleted successfully.");
+         }
+       }
+       )
+     }
+    })
   }
 }

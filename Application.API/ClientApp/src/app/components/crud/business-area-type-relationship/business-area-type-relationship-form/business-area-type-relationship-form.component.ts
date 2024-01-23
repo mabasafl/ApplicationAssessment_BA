@@ -88,6 +88,7 @@ export class BusinessAreaTypeRelationshipFormComponent implements OnInit {
               }
               else{
                 this.responseMessage = response;
+                alert('business area type relationship was not updated.');
               }
             }
           },error:(err) => {
@@ -104,8 +105,10 @@ export class BusinessAreaTypeRelationshipFormComponent implements OnInit {
           if(response.success){
             this.form.reset;
             this.dialogRef.close(true);
+            alert("business area type relationship was added successfully.")
           }else{
             this.responseMessage = response;
+            alert("business area type relationship was not added successfully.")
           }
         })
       }

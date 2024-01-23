@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Customer } from 'src/app/models/customer';
 import { CustomerService } from 'src/app/services/crud/customer.service';
 import { CustomerFormComponent } from './customer-form/customer-form.component';
+import { DialogComponent } from '../../dialog/dialog.component';
 
 @Component({
   selector: 'app-customer',
@@ -67,11 +68,22 @@ export class CustomerComponent implements OnInit {
     })
   }
 
-  deleteCustomer(id: number){
-    let confirm = window.confirm("Are you sure?")
-    if(confirm){
-      
-    }
+  deleteCustomer(data: Customer){
+    const deleteDialogRef = this.dialog.open(DialogComponent, {data});
+ 
+    deleteDialogRef.afterClosed().subscribe((value)=>{
+     if(value){
+       this.customerService.deleteCustomer(data).subscribe((response) =>{
+         if(response.success){
+           alert(`record was deleted succesfully.`);
+           this.getAllCustomers();
+         }else{
+           alert("record was not deleted successfully.");
+         }
+       }
+       )
+     }
+    })
   }
 
 

@@ -19,15 +19,15 @@ getAllPersons(): Observable<Person[]>{
 }
 
 addPerson(person: Person): Observable<ResponseMessage>{
-  return this.http.post<ResponseMessage>(`${this.baseUrl}/post`,person)
+  return this.http.post<ResponseMessage>(`${this.baseUrl}/post`,person);
 }
 
 updatePerson(id: string, person: Person): Observable<ResponseMessage>{
-  return this.http.put<ResponseMessage>(`${this.baseUrl}/update`, person)
+  return this.http.put<ResponseMessage>(`${this.baseUrl}/update`, person);
 }
 
-deletePerson(){
-  
+deletePerson(data: Person){
+  return this.http.delete<ResponseMessage>(`${this.baseUrl}/delete`, {body: data});
 }
 
 }
